@@ -2,3 +2,6 @@ name: CircleFFA
 version: '${project.version}'
 main: me.itsglobally.circleffa.CircleFFA
 load: STARTUP
+commands:
+  setLayout:
+    permission: circleffa.setlayout

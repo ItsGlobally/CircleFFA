@@ -1,5 +1,6 @@
 package me.itsglobally.circleffa;
 
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -30,8 +31,11 @@ public class utils {
         inv.setChestplate(armor(new ItemStack(Material.LEATHER_CHESTPLATE)));
         inv.setLeggings(armor(new ItemStack(Material.LEATHER_LEGGINGS)));
         inv.setBoots(armor(new ItemStack(Material.LEATHER_BOOTS)));
-        inv.addItem(sword(new ItemStack(Material.IRON_SWORD)));
+        inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.IRON_SWORD)));
+        inv.setItem(data.getLayout(u, "block"), item(new ItemStack(Material.WOOL, 64)));
+        inv.setItem(data.getLayout(u, "tool"), item(new ItemStack(Material.SHEARS)));
     }
+
     private static ItemStack armor(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         LeatherArmorMeta lam = (LeatherArmorMeta) im;
@@ -41,11 +45,23 @@ public class utils {
         is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
         return is;
     }
+
     private static ItemStack sword(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         im.spigot().setUnbreakable(true);
         is.setItemMeta(im);
         is.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
         return is;
+    }
+
+    private static ItemStack item(ItemStack is) {
+        ItemMeta im = is.getItemMeta();
+        im.spigot().setUnbreakable(true);
+        is.setItemMeta(im);
+        return is;
+    }
+
+    public static Audience getAudience(Player p) {
+        return data.getInstance().adventure().player(p);
     }
 }
