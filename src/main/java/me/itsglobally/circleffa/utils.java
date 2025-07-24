@@ -17,7 +17,7 @@ public class utils {
         Player p = Bukkit.getPlayer(u);
         if (p == null) return;
 
-        p.teleport(new Location(p.getWorld(), 200.5, 201, 200.5));
+        p.teleport(new Location(p.getWorld(), 0.5, 201, 0.5));
         p.setHealth(20.0);
         p.setFoodLevel(20);
 
@@ -30,7 +30,7 @@ public class utils {
         inv.setLeggings(armor(new ItemStack(Material.LEATHER_LEGGINGS)));
         inv.setBoots(armor(new ItemStack(Material.LEATHER_BOOTS)));
         inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.IRON_SWORD)));
-        inv.setItem(data.getLayout(u, "block"), item(new ItemStack(Material.WOOL, 64)));
+        inv.setItem(data.getLayout(u, "block"), new ItemStack(Material.WOOL, 64));
         inv.setItem(data.getLayout(u, "tool"), item(new ItemStack(Material.SHEARS)));
     }
 

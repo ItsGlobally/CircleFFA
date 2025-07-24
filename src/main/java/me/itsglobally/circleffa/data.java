@@ -1,9 +1,11 @@
 package me.itsglobally.circleffa;
 
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class data {
@@ -14,8 +16,8 @@ public class data {
     private static JavaPlugin plugin;
     private static CircleFFA instance;
 
-    public static void setBm(UUID p) {
-        bm.put(p, !bm.get(p));
+    public static void toggleBm(UUID p) {
+        bm.put(p, !bm.getOrDefault(p, false));
     }
 
     public static Boolean getBm(UUID p) {
@@ -33,8 +35,7 @@ public class data {
     public static Integer getLayout(UUID p, String b) {
         switch (b) {
             case "block" -> {
-                return block.getOrDefault(p, 2
-                );
+                return block.getOrDefault(p, 2);
             }
             case "sword" -> {
                 return sword.getOrDefault(p, 0);
@@ -78,4 +79,26 @@ public class data {
     public static UUID getLastHit(UUID p) {
         return lastHit.get(p);
     }
+
+    private static HashMap<UUID, List<Location>> blocks = new HashMap<>();
+
+    public static void addPlacedBlock(UUID p, Location l) {
+        List<Location> e = blocks.get(p);
+        e.add(l);
+    }
+    public static List<Location> getPlacedBlock(UUID p) {
+        return blocks.get(p);
+    }
+    public static void removePlacedBlocks(UUID p) {
+        blocks.remove(p);
+    }
+    public static void removePlacedBlock(UUID p, Location l) {
+        List<Location> e = blocks.get(p);
+        if (e != null) {
+            e.remove(l);
+        }
+    }
+
+
+
 }

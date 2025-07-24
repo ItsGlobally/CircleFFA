@@ -15,6 +15,7 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("setLayout").setExecutor(new setLayout());
         getCommand("setLayout").setTabCompleter(new setLayout());
         getCommand("kms").setExecutor(new kms());
+        getCommand("toggleBm").setExecutor(new toggleBm());
         data.setInstance(this);
         data.setPlugin(this);
     }

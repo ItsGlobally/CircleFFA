@@ -5,3 +5,8 @@ load: STARTUP
 commands:
   setLayout:
     permission: circleffa.setlayout
+  toggleBm:
+    permission: circleffa.togglebm
+    default: op
+  kms:
+    permission: circleffa.kms
