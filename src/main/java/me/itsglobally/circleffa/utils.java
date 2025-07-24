@@ -66,6 +66,7 @@ public class utils {
     public static void handleKill(UUID pu, UUID klru) {
         Player p = Bukkit.getPlayer(pu);
         Player klr = Bukkit.getPlayer(klru);
+        klr.getInventory().setItem(data.getLayout(klr.getUniqueId(), "block"), new ItemStack(Material.WOOL, 64));
         Audience pa = getAudience(p);
         Audience klra = getAudience(klr);
         String pdn = p.getDisplayName();

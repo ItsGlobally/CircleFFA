@@ -28,7 +28,7 @@ public class events implements Listener {
                     e.getBlockPlaced().setType(Material.AIR);
                     data.removePlacedBlock(e.getPlayer().getUniqueId(), e.getBlockPlaced().getLocation());
                 }
-            };
+            }.runTaskLater(data.getPlugin(), 160L);
             return;
         }
         e.setCancelled(true);
@@ -110,6 +110,12 @@ public class events implements Listener {
             utils.handleKill(e.getPlayer().getUniqueId(), lastHit);
         }
         data.removePlacedBlocks(e.getPlayer().getUniqueId());
+    }
+    @EventHandler
+    public void onMobSpawn(CreatureSpawnEvent e) {
+        if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER_EGG) {
+            e.setCancelled(true);
+        }
     }
 
 }
