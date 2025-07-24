@@ -67,19 +67,23 @@ public class utils {
         Player p = Bukkit.getPlayer(pu);
         Player klr = Bukkit.getPlayer(klru);
         klr.getInventory().setItem(data.getLayout(klr.getUniqueId(), "block"), new ItemStack(Material.WOOL, 64));
-        Audience pa = getAudience(p);
+        data.setLastHit(klru, null);
+        data.setLastHit(pu, null);
+        if (klr == null) return;
         Audience klra = getAudience(klr);
         String pdn = p.getDisplayName();
         String klrdn = klr.getDisplayName();
-        pa.sendActionBar(Component.text(pdn + " killed " + klrdn + "!"));
-        p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
-        klra.sendActionBar(Component.text(pdn + " killed " + klrdn + "!"));
+        klra.sendActionBar(Component.text( klrdn + " §7killed " + pdn + "§7!"));
         klr.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+        if (p == null) return;
+        Audience pa = getAudience(p);
+        pa.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "&7!"));
+        p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
         data.setks(pu, 0);
         data.addks(klru);
         if (data.getks(klru) >= 10) {
             for (Player op : Bukkit.getOnlinePlayers()) {
-                getAudience(op).sendActionBar(Component.text(klrdn + " has reached 10 killstreaks!"));
+                getAudience(op).sendActionBar(Component.text(klrdn + " §ahas reached 10 killstreaks!"));
                 op.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
         }

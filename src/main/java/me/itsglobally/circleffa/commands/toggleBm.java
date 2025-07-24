@@ -15,7 +15,7 @@ public class toggleBm implements CommandExecutor {
             return true;
         }
         data.toggleBm(p.getUniqueId());
-        utils.getAudience(p).sendActionBar(Component.text("set ur bm to " + data.getBm(p.getUniqueId())));
+        utils.getAudience(p).sendActionBar(Component.text("§aSet your bm to " + data.getBm(p.getUniqueId())));
         return true;
     }
 }
