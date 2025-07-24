@@ -19,7 +19,7 @@ public class data {
     }
 
     public static Boolean getBm(UUID p) {
-        return bm.get(p);
+        return bm.getOrDefault(p, false);
     }
 
     public static void setLayout(UUID p, String b, Integer e) {
