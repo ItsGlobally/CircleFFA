@@ -1,10 +1,8 @@
 package me.itsglobally.circleffa;
 
 import net.kyori.adventure.audience.Audience;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import net.kyori.adventure.text.Component;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -64,4 +62,26 @@ public class utils {
     public static Audience getAudience(Player p) {
         return data.getInstance().adventure().player(p);
     }
+
+    public static void handleKill(UUID pu, UUID klru) {
+        Player p = Bukkit.getPlayer(pu);
+        Player klr = Bukkit.getPlayer(klru);
+        Audience pa = getAudience(p);
+        Audience klra = getAudience(klr);
+        String pdn = p.getDisplayName();
+        String klrdn = klr.getDisplayName();
+        pa.sendActionBar(Component.text(pdn + " killed " + klrdn + "!"));
+        p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+        klra.sendActionBar(Component.text(pdn + " killed " + klrdn + "!"));
+        klr.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+        data.setks(pu, 0);
+        data.addks(klru);
+        if (data.getks(klru) >= 10) {
+            for (Player op : Bukkit.getOnlinePlayers()) {
+                getAudience(op).sendActionBar(Component.text(klrdn + " has reached 10 killstreaks!"));
+                op.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
+            }
+        }
+    }
+
 }

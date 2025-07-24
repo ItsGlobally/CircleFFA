@@ -1,6 +1,6 @@
 package me.itsglobally.circleffa;
 
-import me.itsglobally.circleffa.commands.setLayout;
+import me.itsglobally.circleffa.commands.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +14,7 @@ public final class CircleFFA extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new events(), this);
         getCommand("setLayout").setExecutor(new setLayout());
         getCommand("setLayout").setTabCompleter(new setLayout());
+        getCommand("kms").setExecutor(new kms());
         data.setInstance(this);
         data.setPlugin(this);
     }

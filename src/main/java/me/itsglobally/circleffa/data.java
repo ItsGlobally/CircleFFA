@@ -1,6 +1,7 @@
 package me.itsglobally.circleffa;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -32,13 +33,14 @@ public class data {
     public static Integer getLayout(UUID p, String b) {
         switch (b) {
             case "block" -> {
-                return block.getOrDefault(p, 3);
+                return block.getOrDefault(p, 2
+                );
             }
             case "sword" -> {
-                return sword.getOrDefault(p, 1);
+                return sword.getOrDefault(p, 0);
             }
             case "tool" -> {
-                return tool.getOrDefault(p, 2);
+                return tool.getOrDefault(p, 1);
             }
         }
         return null;
@@ -66,5 +68,14 @@ public class data {
     }
     public static void addks(UUID p) {
         ks.put(p, ks.get(p) + 1);
+    }
+    public static Integer getks(UUID p) { return ks.get(p); }
+    private static final HashMap<UUID, UUID> lastHit = new HashMap<>();
+    public static void setLastHit(UUID p, UUID tg) {
+        lastHit.put(p, tg);
+    }
+    @Nullable
+    public static UUID getLastHit(UUID p) {
+        return lastHit.get(p);
     }
 }

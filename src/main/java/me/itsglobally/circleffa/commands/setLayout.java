@@ -18,6 +18,12 @@ public class setLayout implements CommandExecutor, TabCompleter {
         if (!(commandSender instanceof Player p)) {
             return true;
         }
+
+        if (strings.length < 2) {
+            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            return true;
+        }
+
         String block = strings[0];
         int e;
         try {
@@ -26,23 +32,20 @@ public class setLayout implements CommandExecutor, TabCompleter {
             p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
             return true;
         }
-        switch (e) {
-            case 1,2,3,4,5,6,7,8,9,0:
-                break;
-            default:
-                p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
-                return true;
+
+        if (e < 0 || e > 8) {
+            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            return true;
         }
+
         Audience ap = utils.getAudience(p);
-        switch (block) {
-            case "block", "sword", "tool":
-                data.setLayout(p.getUniqueId(), block, e);
-                ap.sendActionBar(Component.text("§7Set your " + block + " to slot " + e));
-                break;
-            default:
-                p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
-                break;
+        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool")) {
+            data.setLayout(p.getUniqueId(), block.toLowerCase(), e);
+            ap.sendActionBar(Component.text("Set your " + block + " to slot " + e)); // or use MiniMessage
+        } else {
+            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
         }
+
         return true;
     }
 
@@ -53,9 +56,6 @@ public class setLayout implements CommandExecutor, TabCompleter {
         }
         if (strings.length == 2) {
             return List.of("0", "1", "2", "3", "4", "5", "6", "7", "8");
-        }
-        if (strings.length > 2) {
-            return List.of("ni_sha_b_ba");
         }
         return List.of();
     }

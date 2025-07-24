@@ -10,6 +10,8 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.UUID;
+
 public class events implements Listener {
     @EventHandler
     public void blockplace(BlockPlaceEvent e) {
@@ -37,9 +39,12 @@ public class events implements Listener {
             return;
         }
         if (e.getDamager() instanceof Player dmgere) {
+            data.setLastHit(p.getUniqueId(), dmgere.getUniqueId());
             if (p.getHealth() < e.getFinalDamage()) {
                 e.setCancelled(true);
                 utils.spawn(p.getUniqueId());
+                utils.handleKill(p.getUniqueId(), dmgere.getUniqueId());
+                data.setLastHit(p.getUniqueId(), null);
             }
         }
     }
@@ -65,11 +70,16 @@ public class events implements Listener {
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0);
         Bukkit.broadcastMessage("[+] " + e.getPlayer().getDisplayName());
+        data.setLastHit(e.getPlayer().getUniqueId(), null);
     }
 
     @EventHandler
     public void playerleave(PlayerQuitEvent e) {
         Bukkit.broadcastMessage("[-] " + e.getPlayer().getDisplayName());
+        UUID lastHit = data.getLastHit(e.getPlayer().getUniqueId());
+        if (lastHit != null) {
+            utils.handleKill(e.getPlayer().getUniqueId(), lastHit);
+        }
     }
 
 }
