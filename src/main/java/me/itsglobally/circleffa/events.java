@@ -128,5 +128,12 @@ public class events implements Listener {
             e.setCancelled(true);
         }
     }
-
+    @EventHandler
+    public void onItemUse(EntityShootBowEvent e) {
+        if (e.getEntity() instanceof Player p) {
+            if (p.getLocation().getY() > 200) {
+                e.setCancelled(true);
+            }
+        }
+    }
 }
