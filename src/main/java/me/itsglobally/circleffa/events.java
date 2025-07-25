@@ -21,9 +21,8 @@ public class events implements Listener {
     @EventHandler
     public void blockplace(BlockPlaceEvent e) {
         if (data.getBm(e.getPlayer().getUniqueId())) return;
-        if (e.getBlockPlaced().getLocation().getY() < 195 && e.getBlockPlaced().getLocation().getY() > 175) {
+        if (e.getBlockPlaced().getLocation().getY() < 195 && e.getBlockPlaced().getLocation().getY() >= 175) {
             new BukkitRunnable() {
-
                 @Override
                 public void run() {
                     e.getBlockPlaced().setType(Material.AIR);
@@ -38,14 +37,20 @@ public class events implements Listener {
     @EventHandler
     public void blockbreak(BlockBreakEvent e) {
         if (data.getBm(e.getPlayer().getUniqueId())) return;
-        if (e.getBlock().getLocation().getY() < 195 && e.getBlock().getLocation().getY() > 175) { return; }
+
+        if (e.getBlock().getLocation().getY() < 195 && e.getBlock().getLocation().getY() > 175) {
+            if (e.getBlock().getType() != Material.SANDSTONE) {
+                e.setCancelled(true);
+                return;
+            }
+            return;
+        }
         e.setCancelled(true);
     }
     @EventHandler
     public void onFallDamage(EntityDamageEvent e) {
         if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
             e.setCancelled(true);
-            return;
         }
     }
     @EventHandler
@@ -106,7 +111,7 @@ public class events implements Listener {
     }
     @EventHandler
     public void playerjoin(PlayerJoinEvent e) {
-        utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("Circle Network!\nYou are playing on Circle FFA!\n"), Component.text("\nitsglobally.top"));
+        utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0);
         Bukkit.broadcastMessage("[+] " + e.getPlayer().getDisplayName());

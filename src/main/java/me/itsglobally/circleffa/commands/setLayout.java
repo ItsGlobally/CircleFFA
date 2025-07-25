@@ -20,7 +20,7 @@ public class setLayout implements CommandExecutor, TabCompleter {
         }
 
         if (strings.length < 2) {
-            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
             return true;
         }
 
@@ -29,12 +29,12 @@ public class setLayout implements CommandExecutor, TabCompleter {
         try {
             e = Integer.parseInt(strings[1]);
         } catch (NumberFormatException ex) {
-            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
             return true;
         }
 
-        if (e < 0 || e > 8) {
-            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
+        if (e < 1 || e > 9) {
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
             return true;
         }
 
@@ -43,7 +43,7 @@ public class setLayout implements CommandExecutor, TabCompleter {
             data.setLayout(p.getUniqueId(), block.toLowerCase(), e - 1);
             ap.sendActionBar(Component.text("Set your " + block + " to slot " + e)); // or use MiniMessage
         } else {
-            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
         }
 
         return true;
