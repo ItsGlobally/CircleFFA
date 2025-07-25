@@ -3,6 +3,7 @@ package me.itsglobally.circleffa;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,6 +45,7 @@ public class events implements Listener {
     public void onFallDamage(EntityDamageEvent e) {
         if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
             e.setCancelled(true);
+            return;
         }
     }
     @EventHandler
@@ -66,15 +68,24 @@ public class events implements Listener {
             e.setCancelled(true);
             return;
         }
-        if (e.getDamager() instanceof Player dmgere) {
-            data.setLastHit(p.getUniqueId(), dmgere.getUniqueId());
+        Player damager = null;
+
+        if (e.getDamager() instanceof Player p1) {
+            damager = p1;
+        } else if (e.getDamager() instanceof Arrow arrow && arrow.getShooter() instanceof Player shooter) {
+            damager = shooter;
+        }
+
+        if (damager != null) {
+            data.setLastHit(p.getUniqueId(), damager.getUniqueId());
             if (p.getHealth() < e.getFinalDamage()) {
                 e.setCancelled(true);
                 utils.spawn(p.getUniqueId());
-                utils.handleKill(p.getUniqueId(), dmgere.getUniqueId());
+                utils.handleKill(p.getUniqueId(), damager.getUniqueId());
                 data.setLastHit(p.getUniqueId(), null);
             }
         }
+
     }
 
     @EventHandler
