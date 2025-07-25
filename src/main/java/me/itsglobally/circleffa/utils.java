@@ -17,12 +17,13 @@ public class utils {
         Player p = Bukkit.getPlayer(u);
         if (p == null) return;
 
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
+
         p.teleport(new Location(p.getWorld(), 0.5, 201, 0.5));
         p.setHealth(20.0);
         p.setFoodLevel(20);
 
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
 
         PlayerInventory inv = p.getInventory();
         inv.setHelmet(armor(new ItemStack(Material.LEATHER_HELMET)));
@@ -32,6 +33,8 @@ public class utils {
         inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.IRON_SWORD)));
         inv.setItem(data.getLayout(u, "block"), new ItemStack(Material.WOOL, 64));
         inv.setItem(data.getLayout(u, "tool"), item(new ItemStack(Material.SHEARS)));
+        inv.setItem(data.getLayout(u, "bow"), bow(new ItemStack(Material.BOW)));
+        inv.setItem(data.getLayout(u, "arrow"), new ItemStack(Material.ARROW, 16));
     }
 
     private static ItemStack armor(ItemStack is) {
@@ -40,7 +43,8 @@ public class utils {
         lam.spigot().setUnbreakable(true);
         lam.setColor(Color.fromBGR(255, 229, 255));
         is.setItemMeta(lam);
-        is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 2);
         return is;
     }
 
@@ -49,6 +53,14 @@ public class utils {
         im.spigot().setUnbreakable(true);
         is.setItemMeta(im);
         is.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        return is;
+    }
+
+    private static ItemStack bow(ItemStack is) {
+        ItemMeta im = is.getItemMeta();
+        im.spigot().setUnbreakable(true);
+        is.setItemMeta(im);
+        is.addUnsafeEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
         return is;
     }
 

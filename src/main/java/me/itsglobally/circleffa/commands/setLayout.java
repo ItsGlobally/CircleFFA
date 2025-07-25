@@ -29,21 +29,21 @@ public class setLayout implements CommandExecutor, TabCompleter {
         try {
             e = Integer.parseInt(strings[1]);
         } catch (NumberFormatException ex) {
-            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
             return true;
         }
 
         if (e < 0 || e > 8) {
-            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
             return true;
         }
 
         Audience ap = utils.getAudience(p);
-        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool")) {
-            data.setLayout(p.getUniqueId(), block.toLowerCase(), e);
+        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool") || block.equalsIgnoreCase("bow") || block.equalsIgnoreCase("arrow")) {
+            data.setLayout(p.getUniqueId(), block.toLowerCase(), e - 1);
             ap.sendActionBar(Component.text("Set your " + block + " to slot " + e)); // or use MiniMessage
         } else {
-            p.sendMessage("§c/setLayout (block|sword|tool) (0-8)");
+            p.sendMessage("§c/setLayout (block|sword|tool) (1-9)");
         }
 
         return true;
