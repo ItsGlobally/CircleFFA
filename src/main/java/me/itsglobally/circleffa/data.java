@@ -4,9 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class data {
     private static final HashMap<UUID, Boolean> bm = new HashMap<>();
@@ -108,7 +106,20 @@ public class data {
             e.remove(l);
         }
     }
+    private static final List<Location> maps = new ArrayList<>();
 
+    public static void addMap(Location l) {
+        maps.add(l);
+    }
+    public static Location getRandomMap() {
+        return maps.get(new Random().nextInt(maps.size()));
+    }
+    private static Location curmap;
+    public static void setCurmap(Location l) {
+        curmap = l;
+    }
 
-
+    public static Location getCurmap() {
+        return curmap;
+    }
 }

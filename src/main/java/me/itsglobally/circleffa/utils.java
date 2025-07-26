@@ -20,7 +20,7 @@ public class utils {
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
 
-        p.teleport(new Location(p.getWorld(), 0.5, 201, 0.5));
+        p.teleport(data.getCurmap());
         p.setHealth(20.0);
         p.setFoodLevel(20);
 

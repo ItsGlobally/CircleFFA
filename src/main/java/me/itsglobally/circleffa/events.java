@@ -2,6 +2,7 @@ package me.itsglobally.circleffa;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -114,16 +115,17 @@ public class events implements Listener {
         utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0);
-        Bukkit.broadcastMessage("[+] " + e.getPlayer().getDisplayName());
         data.setLastHit(e.getPlayer().getUniqueId(), null);
     }
 
     @EventHandler
     public void playerleave(PlayerQuitEvent e) {
-        Bukkit.broadcastMessage("[-] " + e.getPlayer().getDisplayName());
         UUID lastHit = data.getLastHit(e.getPlayer().getUniqueId());
         if (lastHit != null) {
             utils.handleKill(e.getPlayer().getUniqueId(), lastHit);
+        }
+        for (Location l : data.getPlacedBlock(e.getPlayer().getUniqueId())){
+            l.getBlock().setType(Material.AIR);
         }
         data.removePlacedBlocks(e.getPlayer().getUniqueId());
     }
