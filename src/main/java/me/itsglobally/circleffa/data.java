@@ -2,8 +2,6 @@ package me.itsglobally.circleffa;
 
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -85,7 +83,6 @@ public class data {
     public static void setLastHit(UUID p, UUID tg) {
         lastHit.put(p, tg);
     }
-    @Nullable
     public static UUID getLastHit(UUID p) {
         return lastHit.get(p);
     }
