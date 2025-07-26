@@ -57,6 +57,7 @@ public class events implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if (e.getPlayer().getLocation().getY() < 150) {
+            if (data.getBm(e.getPlayer().getUniqueId())) return;
             utils.spawn(e.getPlayer().getUniqueId());
             UUID lastHit = data.getLastHit(e.getPlayer().getUniqueId());
             if (lastHit != null) {

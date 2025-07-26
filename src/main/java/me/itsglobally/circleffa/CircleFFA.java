@@ -34,6 +34,7 @@ public final class CircleFFA extends JavaPlugin {
                     utils.handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
                     utils.spawn(p.getUniqueId());
                 }
+                Bukkit.broadcastMessage("map changing in next 5 mins");
             }
         }.runTaskTimer(this, 0L, 600L * 20);
 
