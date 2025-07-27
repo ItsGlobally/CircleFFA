@@ -115,20 +115,34 @@ public class utils {
             }
         }
     }
+    private static BukkitRunnable mapTask;
+
     public static void changeMap() {
         data.setCurmap(data.getRandomMap());
-        Bukkit.broadcastMessage("map change");
+        Bukkit.broadcastMessage("§eMap has changed!");
         for (Player p : Bukkit.getOnlinePlayers()) {
-            utils.handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
-            utils.spawn(p.getUniqueId());
+            handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
+            spawn(p.getUniqueId());
         }
-        Bukkit.broadcastMessage("map changing in next 5 mins");
-        new BukkitRunnable() {
+        Bukkit.broadcastMessage("§7Next map change in 5 minutes.");
+    }
+
+    public static void startMapRotation() {
+        if (mapTask != null) {
+            mapTask.cancel();
+        }
+
+        mapTask = new BukkitRunnable() {
             @Override
             public void run() {
                 changeMap();
+                startMapRotation();
             }
-        }.runTaskTimer(data.getPlugin(), 0L, 600L * 20);
+        };
+
+        mapTask.runTaskLater(data.getPlugin(), 5 * 60 * 20);
     }
+
+
 
 }

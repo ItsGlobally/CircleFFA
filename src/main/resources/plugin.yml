@@ -4,9 +4,13 @@ main: me.itsglobally.circleffa.CircleFFA
 load: STARTUP
 commands:
   setLayout:
-    permission: circleffa.setlayout
+    description: "gay"
   toggleBm:
     permission: circleffa.togglebm
+    aliases:
+      - tbm
     default: op
   kms:
-    permission: circleffa.kms
+    description: "gay"
+  changeMap:
+    description: "gay"

@@ -9,6 +9,7 @@ public class changeMap implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         utils.changeMap();
+        utils.startMapRotation();
         commandSender.sendMessage("§aChanged map.");
         return true;
     }

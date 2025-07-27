@@ -21,6 +21,7 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("setLayout").setTabCompleter(new setLayout());
         getCommand("kms").setExecutor(new kms());
         getCommand("toggleBm").setExecutor(new toggleBm());
+        getCommand("changeMap").setExecutor(new changeMap());
         data.setInstance(this);
         data.setPlugin(this);
         data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));
