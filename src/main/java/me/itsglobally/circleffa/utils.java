@@ -123,6 +123,12 @@ public class utils {
             Audience pa = getAudience(p);
             pa.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "§7!"));
             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+            if (data.getks(pu) >= 10) {
+                for (Player op : Bukkit.getOnlinePlayers()) {
+                    op.playSound(op.getLocation(), Sound.SKELETON_DEATH, 0.75f, 2.0f);
+                }
+                Bukkit.broadcastMessage(klrdn + " §ahas ended " + p.getDisplayName() + "'s " + data.getks(pu) + " killstreaks!");
+            }
         }
 
         // Reset victim streak, increment killer streak
@@ -132,9 +138,9 @@ public class utils {
         int streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
             for (Player op : Bukkit.getOnlinePlayers()) {
-                        op.sendMessage(klrdn + " §ahas reached " + streak + " killstreaks!");
                 op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
+            Bukkit.broadcastMessage(klrdn + " §ahas reached " + streak + " killstreaks!");
         }
     }
 
