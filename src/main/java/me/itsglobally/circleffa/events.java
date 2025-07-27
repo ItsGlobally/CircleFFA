@@ -14,6 +14,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -144,6 +145,14 @@ public class events implements Listener {
     public void onItemUse(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player p) {
             if (p.getLocation().getY() > 200) {
+                e.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent e) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
+            if (e.getPlayer().getLocation().getY() > 200) {
                 e.setCancelled(true);
             }
         }
