@@ -15,6 +15,10 @@ public class statsreset implements CommandExecutor {
         if(!(commandSender instanceof Player p)) {
             return true;
         }
+        if (strings.length < 1) {
+            p.sendMessage("§c/statsreset (player)");
+            return true;
+        }
         Player p2 = Bukkit.getPlayerExact(strings[0]);
         if (p2 == null) {
             p.sendMessage("§cPlayer not found");
