@@ -9,8 +9,10 @@ commands:
     permission: circleffa.togglebm
     aliases:
       - tbm
-    default: op
   kms:
     description: "gay"
   changeMap:
     description: "gay"
+permissions:
+  circleffa.togglebm:
+    default: op
