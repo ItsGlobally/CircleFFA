@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -113,6 +114,21 @@ public class utils {
                 op.playSound(klr.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
         }
+    }
+    public static void changeMap() {
+        data.setCurmap(data.getRandomMap());
+        Bukkit.broadcastMessage("map change");
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            utils.handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
+            utils.spawn(p.getUniqueId());
+        }
+        Bukkit.broadcastMessage("map changing in next 5 mins");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                changeMap();
+            }
+        }.runTaskTimer(data.getPlugin(), 0L, 600L * 20);
     }
 
 }
