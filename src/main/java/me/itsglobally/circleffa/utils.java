@@ -1,5 +1,7 @@
 package me.itsglobally.circleffa;
 
+import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.util.DiscordUtil;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -85,7 +87,7 @@ public class utils {
     public static void handleKill(UUID pu, UUID klru) {
         Player p = Bukkit.getPlayer(pu);
         Player klr = Bukkit.getPlayer(klru);
-
+        if (pu == klru) return;
         if (klr == null) return;
 
         klr.getInventory().setItem(
@@ -127,7 +129,14 @@ public class utils {
                     op.playSound(op.getLocation(), Sound.SKELETON_DEATH, 0.75f, 2.0f);
                 }
                 Bukkit.broadcastMessage(klrdn + " §ahas ended " + p.getDisplayName() + "§a's " + data.getks(pu) + " killstreaks!");
+                DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+                        .sendMessage(klr.getName() + " has ended " + p.getName() + "'s " + data.getks(pu) + " killstreaks!")
+                        .queue();
             }
+            DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+                    .sendMessage(klr.getName() + " killed " + p.getName())
+                    .queue();
+
         }
         data.setks(pu, 0);
         data.addks(klru);
@@ -140,6 +149,9 @@ public class utils {
                 op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
             Bukkit.broadcastMessage(klrdn + " §ahas reached " + streak + " §akillstreaks!");
+            DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+                    .sendMessage(klr.getName() + " has reached " + streak + " killstreaks!")
+                    .queue();
         }
     }
 

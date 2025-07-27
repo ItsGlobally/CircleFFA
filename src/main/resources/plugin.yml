@@ -2,6 +2,8 @@ name: CircleFFA
 version: '${project.version}'
 main: me.itsglobally.circleffa.CircleFFA
 load: STARTUP
+depend:
+  - DiscordSRV
 commands:
   setLayout:
     description: "gay"
