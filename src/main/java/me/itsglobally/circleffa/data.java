@@ -52,10 +52,10 @@ public class data {
                 return bow.getOrDefault(p, 2);
             }
             case "arrow" -> {
-                return arrow.getOrDefault(p, 5);
+                return arrow.getOrDefault(p, 4);
             }
             case "pearl" ->{
-                return pearl.getOrDefault(p, 6);
+                return pearl.getOrDefault(p, 5);
             }
         }
         return null;
