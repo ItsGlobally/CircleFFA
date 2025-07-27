@@ -127,11 +127,9 @@ public class utils {
                 for (Player op : Bukkit.getOnlinePlayers()) {
                     op.playSound(op.getLocation(), Sound.SKELETON_DEATH, 0.75f, 2.0f);
                 }
-                Bukkit.broadcastMessage(klrdn + " §ahas ended " + p.getDisplayName() + "'s " + data.getks(pu) + " killstreaks!");
+                Bukkit.broadcastMessage(klrdn + " §ahas ended " + p.getDisplayName() + "§a's " + data.getks(pu) + " killstreaks!");
             }
         }
-
-        // Reset victim streak, increment killer streak
         data.setks(pu, 0);
         data.addks(klru);
 
@@ -140,7 +138,7 @@ public class utils {
             for (Player op : Bukkit.getOnlinePlayers()) {
                 op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
-            Bukkit.broadcastMessage(klrdn + " §ahas reached " + streak + " killstreaks!");
+            Bukkit.broadcastMessage(klrdn + " §ahas reached " + streak + " §akillstreaks!");
         }
     }
 
