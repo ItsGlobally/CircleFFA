@@ -180,11 +180,12 @@ public class utils {
         obj.setDisplayName("§dCircle FFA");
 
         obj.getScore("§r§7--------------").setScore(9);
-        obj.getScore("   ").setScore(8);
         obj.getScore("§aKills: " + data.getKill(u)).setScore(7);
         obj.getScore("§aDeaths: " + data.getDies(u)).setScore(6);
         obj.getScore("§aKillstreaks: " + data.getks(u)).setScore(5);
-        obj.getScore("  ").setScore(4);
+        double kdr = data.getDies(u) == 0 ? data.getKill(u) : (double) data.getKill(u) / data.getDies(u);
+        String kdrFormatted = String.format("%.2f", kdr);
+        obj.getScore("§aKDR: " + kdrFormatted).setScore(4);
         obj.getScore("§7--------------").setScore(3);
         obj.getScore(" ").setScore(2);
         obj.getScore("§ditsglobally.top").setScore(1);
