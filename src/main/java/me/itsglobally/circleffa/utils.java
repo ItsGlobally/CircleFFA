@@ -89,6 +89,10 @@ public class utils {
                 data.getLayout(klru, "block"),
                 new ItemStack(Material.SANDSTONE, 64)
         );
+        klr.getInventory().setItem(
+                data.getLayout(klru, "arrow"),
+                new ItemStack(Material.ARROW, 16)
+        );
 
         // Handle ender pearl increment safely
         int pearlSlot = data.getLayout(klr.getUniqueId(), "pearl");
