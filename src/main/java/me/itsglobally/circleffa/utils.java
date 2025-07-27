@@ -10,6 +10,10 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.UUID;
 
@@ -84,7 +88,6 @@ public class utils {
 
         if (klr == null) return;
 
-        // Give 64 sandstone to killer
         klr.getInventory().setItem(
                 data.getLayout(klru, "block"),
                 new ItemStack(Material.SANDSTONE, 64)
@@ -94,7 +97,6 @@ public class utils {
                 new ItemStack(Material.ARROW, 16)
         );
 
-        // Handle ender pearl increment safely
         int pearlSlot = data.getLayout(klr.getUniqueId(), "pearl");
         ItemStack pearlItem = klr.getInventory().getItem(pearlSlot);
         int newAmount = (pearlItem != null && pearlItem.getType() == Material.ENDER_PEARL)
@@ -102,7 +104,6 @@ public class utils {
                 : 1;
         klr.getInventory().setItem(pearlSlot, new ItemStack(Material.ENDER_PEARL, newAmount));
 
-        // Reset last hit tracking
         data.setLastHit(klru, null);
         data.setLastHit(pu, null);
 
@@ -112,13 +113,11 @@ public class utils {
                 : Bukkit.getOfflinePlayer(pu).getName();
         if (pdn == null) pdn = "Unknown";
 
-        // Killer's message and sound
         Audience klra = getAudience(klr);
         klra.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "§7!"));
         klr.setHealth(20.0);
         klr.playSound(klr.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 
-        // Victim's message and sound if online
         if (p != null) {
             Audience pa = getAudience(p);
             pa.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "§7!"));
@@ -132,6 +131,8 @@ public class utils {
         }
         data.setks(pu, 0);
         data.addks(klru);
+        data.addKill(klru, 1L);
+        data.addDies(p.getUniqueId());
 
         int streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
@@ -151,7 +152,7 @@ public class utils {
             handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
             spawn(p.getUniqueId());
         }
-        Bukkit.broadcastMessage("§7Next map change in 5 minutes.");
+        Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
     }
 
     public static void startMapRotation() {
@@ -167,9 +168,28 @@ public class utils {
             }
         };
 
-        mapTask.runTaskLater(data.getPlugin(), 5 * 60 * 20);
+        mapTask.runTaskLater(data.getPlugin(), 10 * 60 * 20L);
     }
 
+    public static void updateScoreBorad(UUID u) {
+        Player p = Bukkit.getPlayer(u);
+        ScoreboardManager sm = Bukkit.getScoreboardManager();
+        Scoreboard sb = sm.getNewScoreboard();
+        Objective obj = sb.registerNewObjective("stats", "dummy");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        obj.setDisplayName("§dCircle FFA");
 
+        obj.getScore("§r§7--------------").setScore(9);
+        obj.getScore("   ").setScore(8);
+        obj.getScore("§aKills: " + data.getKill(u)).setScore(7);
+        obj.getScore("§aDeaths: " + data.getDies(u)).setScore(6);
+        obj.getScore("§aKillstreaks: " + data.getks(u)).setScore(5);
+        obj.getScore("  ").setScore(4);
+        obj.getScore("§7--------------").setScore(3);
+        obj.getScore(" ").setScore(2);
+        obj.getScore("§ditsglobally.top").setScore(1);
+
+        p.setScoreboard(sb);
+    }
 
 }

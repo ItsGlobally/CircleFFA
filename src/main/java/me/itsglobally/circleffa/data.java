@@ -133,4 +133,20 @@ public class data {
     public static Location getCurmap() {
         return curmap;
     }
+
+    private static final HashMap<UUID, Long> kills = new HashMap<>();
+    public static void addKill(UUID p, Long l) {
+        kills.put(p, kills.getOrDefault(p, 0L) + l);
+    }
+    public static Long getKill(UUID p) {
+        return kills.getOrDefault(p, 0L);
+    }
+    private static final HashMap<UUID, Long> dies = new HashMap<>();
+    public static void addDies(UUID p) {
+        dies.put(p, dies.getOrDefault(p, 0L) + 1);
+    }
+    public static Long getDies(UUID p) {
+        return dies.getOrDefault(p, 0L);
+    }
+
 }

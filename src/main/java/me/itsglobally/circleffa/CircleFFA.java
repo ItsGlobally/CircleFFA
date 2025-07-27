@@ -30,6 +30,15 @@ public final class CircleFFA extends JavaPlugin {
         data.setCurmap(data.getRandomMap());
         utils.changeMap();
 
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    utils.updateScoreBorad(p.getUniqueId());
+                }
+            }
+        }.runTaskTimer(this, 0, 20);
+
     }
 
     @Override
