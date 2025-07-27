@@ -23,12 +23,14 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("toggleBm").setExecutor(new toggleBm());
         data.setInstance(this);
         data.setPlugin(this);
-        data.addMap(new Location(Bukkit.getWorld("ffa"), 0, 200, 0));
+        data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));
+        data.addMap(new Location(Bukkit.getWorld("ffa"), 1000.5, 201, 1000.5));
+
         data.setCurmap(data.getRandomMap());
         new BukkitRunnable() {
             @Override
             public void run() {
-                data.setCurmap(data.getCurmap());
+                data.setCurmap(data.getRandomMap());
                 Bukkit.broadcastMessage("map change");
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     utils.handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));

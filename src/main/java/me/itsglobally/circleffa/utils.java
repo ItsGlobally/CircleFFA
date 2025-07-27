@@ -89,7 +89,7 @@ public class utils {
         String klrdn = klr.getDisplayName();
         String pdn = (p != null)
                 ? p.getDisplayName()
-                : Bukkit.getOfflinePlayer(pu).getPlayer().getDisplayName(); // fallback to offline name
+                : Bukkit.getOfflinePlayer(pu).getPlayer().getDisplayName();
         if (pdn == null) pdn = "Unknown";
 
 
