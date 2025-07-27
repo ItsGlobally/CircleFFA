@@ -141,6 +141,9 @@ public class data {
     public static Long getKill(UUID p) {
         return kills.getOrDefault(p, 0L);
     }
+    public static void setKill(UUID p, Long l) {
+        kills.put(p, l);
+    }
     private static final HashMap<UUID, Long> dies = new HashMap<>();
     public static void addDies(UUID p) {
         dies.put(p, dies.getOrDefault(p, 0L) + 1);
@@ -148,5 +151,7 @@ public class data {
     public static Long getDies(UUID p) {
         return dies.getOrDefault(p, 0L);
     }
-
+    public static void setDies(UUID p, Long l) {
+        dies.put(p, l);
+    }
 }

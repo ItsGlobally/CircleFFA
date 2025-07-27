@@ -13,6 +13,10 @@ commands:
     description: "gay"
   changeMap:
     description: "gay"
+  statsreset:
+    permission: circleffa.statsreset
 permissions:
   circleffa.togglebm:
+    default: op
+  circleffa.statsreset:
     default: op
