@@ -1,5 +1,6 @@
 package me.itsglobally.circleffa;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +14,7 @@ public class data {
     private static final HashMap<UUID, Integer> tool = new HashMap<>();
     private static final HashMap<UUID, Integer> bow = new HashMap<>();
     private static final HashMap<UUID, Integer> arrow = new HashMap<>();
+    private static final HashMap<UUID, Integer> pearl = new HashMap<>();
     private static JavaPlugin plugin;
     private static CircleFFA instance;
 
@@ -31,6 +33,7 @@ public class data {
             case "tool" -> tool.put(p, e);
             case "bow" -> bow.put(p, e);
             case "arrow" -> arrow.put(p, e);
+            case "pearl" -> pearl.put(p, e);
         }
     }
 
@@ -50,6 +53,9 @@ public class data {
             }
             case "arrow" -> {
                 return arrow.getOrDefault(p, 4);
+            }
+            case "pearl" ->{
+                return pearl.getOrDefault(p, 4);
             }
         }
         return null;
@@ -89,10 +95,15 @@ public class data {
     }
 
     private static HashMap<UUID, List<Location>> blocks = new HashMap<>();
-
+    public static void initBlock(UUID p) {
+        List<Location> e = new ArrayList<>();
+        e.add(new Location(Bukkit.getWorld("ffa"), 0, 0, 0));
+        blocks.put(p, e);
+    }
     public static void addPlacedBlock(UUID p, Location l) {
-        List<Location> e = blocks.get(p);
+        final List<Location> e = blocks.get(p);
         e.add(l);
+        blocks.put(p, e);
     }
     public static List<Location> getPlacedBlock(UUID p) {
         return blocks.get(p);

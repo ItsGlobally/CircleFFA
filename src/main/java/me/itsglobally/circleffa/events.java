@@ -23,6 +23,7 @@ public class events implements Listener {
     public void blockplace(BlockPlaceEvent e) {
         if (data.getBm(e.getPlayer().getUniqueId())) return;
         if (e.getBlockPlaced().getLocation().getY() < 195 && e.getBlockPlaced().getLocation().getY() >= 175) {
+            data.addPlacedBlock(e.getPlayer().getUniqueId(), e.getBlockPlaced().getLocation());
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -117,6 +118,7 @@ public class events implements Listener {
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0);
         data.setLastHit(e.getPlayer().getUniqueId(), null);
+        data.initBlock(e.getPlayer().getUniqueId());
     }
 
     @EventHandler

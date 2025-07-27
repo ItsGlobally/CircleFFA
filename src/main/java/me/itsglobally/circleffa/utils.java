@@ -31,11 +31,12 @@ public class utils {
         inv.setChestplate(armor(new ItemStack(Material.LEATHER_CHESTPLATE)));
         inv.setLeggings(armor(new ItemStack(Material.LEATHER_LEGGINGS)));
         inv.setBoots(armor(new ItemStack(Material.LEATHER_BOOTS)));
-        inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.IRON_SWORD)));
+        inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.WOOD_SWORD)));
         inv.setItem(data.getLayout(u, "block"), new ItemStack(Material.SANDSTONE, 64));
         inv.setItem(data.getLayout(u, "tool"), tool(new ItemStack(Material.STONE_PICKAXE)));
         inv.setItem(data.getLayout(u, "bow"), bow(new ItemStack(Material.BOW)));
         inv.setItem(data.getLayout(u, "arrow"), new ItemStack(Material.ARROW, 16));
+        inv.setItem(data.getLayout(u, "pearl"), new ItemStack(Material.ENDER_PEARL));
     }
 
     private static ItemStack armor(ItemStack is) {
@@ -83,38 +84,56 @@ public class utils {
 
         if (klr == null) return;
 
-        klr.getInventory().setItem(data.getLayout(klru, "block"), new ItemStack(Material.SANDSTONE, 64));
+        // Give 64 sandstone to killer
+        klr.getInventory().setItem(
+                data.getLayout(klru, "block"),
+                new ItemStack(Material.SANDSTONE, 64)
+        );
+
+        // Handle ender pearl increment safely
+        int pearlSlot = data.getLayout(klr.getUniqueId(), "pearl");
+        ItemStack pearlItem = klr.getInventory().getItem(pearlSlot);
+        int newAmount = (pearlItem != null && pearlItem.getType() == Material.ENDER_PEARL)
+                ? Math.min(pearlItem.getAmount() + 1, 16)
+                : 1;
+        klr.getInventory().setItem(pearlSlot, new ItemStack(Material.ENDER_PEARL, newAmount));
+
+        // Reset last hit tracking
         data.setLastHit(klru, null);
         data.setLastHit(pu, null);
 
         String klrdn = klr.getDisplayName();
         String pdn = (p != null)
                 ? p.getDisplayName()
-                : Bukkit.getOfflinePlayer(pu).getPlayer().getDisplayName();
+                : Bukkit.getOfflinePlayer(pu).getName();
         if (pdn == null) pdn = "Unknown";
 
-
+        // Killer's message and sound
         Audience klra = getAudience(klr);
         klra.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "§7!"));
         klr.setHealth(20.0);
         klr.playSound(klr.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 
+        // Victim's message and sound if online
         if (p != null) {
             Audience pa = getAudience(p);
             pa.sendActionBar(Component.text(klrdn + " §7killed " + pdn + "§7!"));
             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
         }
 
+        // Reset victim streak, increment killer streak
         data.setks(pu, 0);
         data.addks(klru);
 
-        if (data.getks(klru) >= 10) {
+        int streak = data.getks(klru);
+        if (streak >= 10 && streak % 5 == 0) {
             for (Player op : Bukkit.getOnlinePlayers()) {
-                getAudience(op).sendActionBar(Component.text(klrdn + " §ahas reached 10 killstreaks!"));
-                op.playSound(klr.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
+                        op.sendMessage(klrdn + " §ahas reached " + streak + " killstreaks!");
+                op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
         }
     }
+
     private static BukkitRunnable mapTask;
 
     public static void changeMap() {

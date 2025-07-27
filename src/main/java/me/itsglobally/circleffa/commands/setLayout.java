@@ -20,7 +20,7 @@ public class setLayout implements CommandExecutor, TabCompleter {
         }
 
         if (strings.length < 2) {
-            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword|pearl) (1-9)");
             return true;
         }
 
@@ -29,21 +29,21 @@ public class setLayout implements CommandExecutor, TabCompleter {
         try {
             e = Integer.parseInt(strings[1]);
         } catch (NumberFormatException ex) {
-            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword|pearl) (1-9)");
             return true;
         }
 
         if (e < 1 || e > 9) {
-            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword|pearl) (1-9)");
             return true;
         }
 
         Audience ap = utils.getAudience(p);
-        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool") || block.equalsIgnoreCase("bow") || block.equalsIgnoreCase("arrow")) {
+        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool") || block.equalsIgnoreCase("bow") || block.equalsIgnoreCase("arrow")  || block.equalsIgnoreCase("pearl")) {
             data.setLayout(p.getUniqueId(), block.toLowerCase(), e - 1);
             ap.sendActionBar(Component.text("Set your " + block + " to slot " + e)); // or use MiniMessage
         } else {
-            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword) (1-9)");
+            p.sendMessage("§c/setLayout (block|sword|tool|bow|sword|pearl) (1-9)");
         }
 
         return true;
