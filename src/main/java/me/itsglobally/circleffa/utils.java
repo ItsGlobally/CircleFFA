@@ -49,7 +49,7 @@ public class utils {
         ItemMeta im = is.getItemMeta();
         LeatherArmorMeta lam = (LeatherArmorMeta) im;
         lam.spigot().setUnbreakable(true);
-        lam.setColor(Color.fromRGB(217, 144, 255));
+        lam.setColor(Color.fromRGB(242, 218, 255));
         is.setItemMeta(lam);
         is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
         is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 4);
