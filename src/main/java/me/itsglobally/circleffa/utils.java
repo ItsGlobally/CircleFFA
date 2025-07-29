@@ -35,8 +35,8 @@ public class utils {
         PlayerInventory inv = p.getInventory();
         inv.setHelmet(armor(new ItemStack(Material.LEATHER_HELMET)));
         inv.setChestplate(armor(new ItemStack(Material.LEATHER_CHESTPLATE)));
-        inv.setLeggings(armor(new ItemStack(Material.LEATHER_LEGGINGS)));
-        inv.setBoots(armor(new ItemStack(Material.LEATHER_BOOTS)));
+        inv.setLeggings(armor(new ItemStack(Material.IRON_LEGGINGS)));
+        inv.setBoots(armor(new ItemStack(Material.IRON_LEGGINGS)));
         inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.WOOD_SWORD)));
         inv.setItem(data.getLayout(u, "block"), new ItemStack(Material.SANDSTONE, 64));
         inv.setItem(data.getLayout(u, "tool"), tool(new ItemStack(Material.STONE_PICKAXE)));
@@ -51,8 +51,8 @@ public class utils {
         lam.spigot().setUnbreakable(true);
         lam.setColor(Color.fromBGR(255, 229, 255));
         is.setItemMeta(lam);
-        is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-        is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 2);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 4);
         return is;
     }
 
