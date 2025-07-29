@@ -33,10 +33,10 @@ public class utils {
 
 
         PlayerInventory inv = p.getInventory();
-        inv.setHelmet(armor(new ItemStack(Material.LEATHER_HELMET)));
-        inv.setChestplate(armor(new ItemStack(Material.LEATHER_CHESTPLATE)));
-        inv.setLeggings(armor(new ItemStack(Material.IRON_LEGGINGS)));
-        inv.setBoots(armor(new ItemStack(Material.IRON_LEGGINGS)));
+        inv.setHelmet(armor1(new ItemStack(Material.LEATHER_HELMET)));
+        inv.setChestplate(armor1(new ItemStack(Material.LEATHER_CHESTPLATE)));
+        inv.setLeggings(armor2(new ItemStack(Material.IRON_LEGGINGS)));
+        inv.setBoots(armor2(new ItemStack(Material.IRON_LEGGINGS)));
         inv.setItem(data.getLayout(u, "sword"), sword(new ItemStack(Material.WOOD_SWORD)));
         inv.setItem(data.getLayout(u, "block"), new ItemStack(Material.SANDSTONE, 64));
         inv.setItem(data.getLayout(u, "tool"), tool(new ItemStack(Material.STONE_PICKAXE)));
@@ -45,12 +45,20 @@ public class utils {
         inv.setItem(data.getLayout(u, "pearl"), new ItemStack(Material.ENDER_PEARL));
     }
 
-    private static ItemStack armor(ItemStack is) {
+    private static ItemStack armor1(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         LeatherArmorMeta lam = (LeatherArmorMeta) im;
         lam.spigot().setUnbreakable(true);
         lam.setColor(Color.fromBGR(255, 229, 255));
         is.setItemMeta(lam);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+        is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 4);
+        return is;
+    }
+    private static ItemStack armor2(ItemStack is) {
+        ItemMeta im = is.getItemMeta();
+        im.spigot().setUnbreakable(true);
+        is.setItemMeta(im);
         is.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
         is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 4);
         return is;
