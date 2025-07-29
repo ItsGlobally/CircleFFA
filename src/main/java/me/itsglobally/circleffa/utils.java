@@ -161,6 +161,7 @@ public class utils {
         data.setCurmap(data.getRandomMap());
         Bukkit.broadcastMessage("§eMap has changed!");
         for (Player p : Bukkit.getOnlinePlayers()) {
+            if (data.getBm(p.getUniqueId())) continue;
             handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
             spawn(p.getUniqueId());
         }
@@ -185,24 +186,35 @@ public class utils {
 
     public static void updateScoreBorad(UUID u) {
         Player p = Bukkit.getPlayer(u);
-        ScoreboardManager sm = Bukkit.getScoreboardManager();
-        Scoreboard sb = sm.getNewScoreboard();
-        Objective obj = sb.registerNewObjective("stats", "dummy");
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName("§dCircle FFA");
+        if (p == null) return;
+
+        Scoreboard sb = p.getScoreboard();
+        Objective obj = sb.getObjective("stats");
+        if (obj == null) {
+            obj = sb.registerNewObjective("stats", "dummy");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            obj.setDisplayName("§dCircle FFA");
+        }
+
+        for (String entry : sb.getEntries()) {
+            if (obj.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(entry) != null) {
+                sb.resetScores(entry);
+            }
+        }
 
         obj.getScore("§r§7--------------").setScore(9);
         obj.getScore("§aKills: " + data.getKill(u)).setScore(7);
         obj.getScore("§aDeaths: " + data.getDies(u)).setScore(6);
         obj.getScore("§aKillstreaks: " + data.getks(u)).setScore(5);
+
         double kdr = data.getDies(u) == 0 ? data.getKill(u) : (double) data.getKill(u) / data.getDies(u);
         String kdrFormatted = String.format("%.2f", kdr);
         obj.getScore("§aKDR: " + kdrFormatted).setScore(4);
+
         obj.getScore("§7--------------").setScore(3);
         obj.getScore(" ").setScore(2);
         obj.getScore("§ditsglobally.top").setScore(1);
-
-        p.setScoreboard(sb);
     }
+
 
 }
