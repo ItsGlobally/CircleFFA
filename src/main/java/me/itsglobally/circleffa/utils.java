@@ -146,12 +146,12 @@ public class utils {
                     .queue();
 
         }
-        data.setks(pu, 0);
+        data.setks(pu, 0L);
         data.addks(klru);
         data.addKill(klru, 1L);
         data.addDies(p.getUniqueId());
-
-        int streak = data.getks(klru);
+        starUtils.addStar(klru, data.getks(klru));
+        long streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
             for (Player op : Bukkit.getOnlinePlayers()) {
                 op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);

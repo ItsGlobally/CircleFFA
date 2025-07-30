@@ -114,7 +114,7 @@ public class events implements Listener {
     public void playerjoin(PlayerJoinEvent e) {
         utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
         utils.spawn(e.getPlayer().getUniqueId());
-        data.setks(e.getPlayer().getUniqueId(), 0);
+        data.setks(e.getPlayer().getUniqueId(), 0L);
         data.setLastHit(e.getPlayer().getUniqueId(), null);
         data.initBlock(e.getPlayer().getUniqueId());
         data.addKill(e.getPlayer().getUniqueId(), 0L);

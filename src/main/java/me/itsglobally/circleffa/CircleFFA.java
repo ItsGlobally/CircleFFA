@@ -70,6 +70,7 @@ public final class CircleFFA extends JavaPlugin {
     @Override
     public void onDisable() {
         data.saveLayouts(layoutFile);
+        starUtils.saveStar(starFile);
     }
 
     public BukkitAudiences adventure() {

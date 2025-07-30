@@ -132,14 +132,14 @@ public class data {
         data.instance = instance;
     }
 
-    private static final HashMap<UUID, Integer> ks = new HashMap<>();
-    public static void setks(UUID p, Integer k) {
+    private static final HashMap<UUID, Long> ks = new HashMap<>();
+    public static void setks(UUID p, Long k) {
         ks.put(p, k);
     }
     public static void addks(UUID p) {
         ks.put(p, ks.get(p) + 1);
     }
-    public static Integer getks(UUID p) { return ks.get(p); }
+    public static Long getks(UUID p) { return ks.get(p); }
     private static final HashMap<UUID, UUID> lastHit = new HashMap<>();
     public static void setLastHit(UUID p, UUID tg) {
         lastHit.put(p, tg);
