@@ -11,10 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -156,5 +153,9 @@ public class events implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        Bukkit.broadcastMessage("§7[" + starUtils.getStar(e.getPlayer().getUniqueId()) + "✫] §r" + e.getPlayer().getDisplayName() + "§r» " + e.getMessage());
     }
 }

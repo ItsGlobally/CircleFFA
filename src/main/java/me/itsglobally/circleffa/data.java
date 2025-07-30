@@ -2,9 +2,14 @@ package me.itsglobally.circleffa;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class data {
@@ -36,6 +41,35 @@ public class data {
             case "pearl" -> pearl.put(p, e);
         }
     }
+    public static void saveLayouts(File file) {
+        FileConfiguration config = new YamlConfiguration();
+
+        for (UUID uuid : sword.keySet()) {
+            String path = "layouts." + uuid.toString();
+            config.set(path + ".sword", sword.get(uuid));
+        }
+        for (UUID uuid : block.keySet()) {
+            config.set("layouts." + uuid + ".block", block.get(uuid));
+        }
+        for (UUID uuid : tool.keySet()) {
+            config.set("layouts." + uuid + ".tool", tool.get(uuid));
+        }
+        for (UUID uuid : bow.keySet()) {
+            config.set("layouts." + uuid + ".bow", bow.get(uuid));
+        }
+        for (UUID uuid : arrow.keySet()) {
+            config.set("layouts." + uuid + ".arrow", arrow.get(uuid));
+        }
+        for (UUID uuid : pearl.keySet()) {
+            config.set("layouts." + uuid + ".pearl", pearl.get(uuid));
+        }
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Integer getLayout(UUID p, String b) {
         switch (b) {
@@ -60,6 +94,27 @@ public class data {
         }
         return null;
     }
+
+    public static void loadLayouts(File file) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        ConfigurationSection layouts = config.getConfigurationSection("layouts");
+        if (layouts == null) return;
+
+        for (String uuidString : layouts.getKeys(false)) {
+            UUID uuid = UUID.fromString(uuidString);
+            ConfigurationSection section = layouts.getConfigurationSection(uuidString);
+            if (section == null) continue;
+
+            if (section.contains("sword")) sword.put(uuid, section.getInt("sword"));
+            if (section.contains("block")) block.put(uuid, section.getInt("block"));
+            if (section.contains("tool")) tool.put(uuid, section.getInt("tool"));
+            if (section.contains("bow")) bow.put(uuid, section.getInt("bow"));
+            if (section.contains("arrow")) arrow.put(uuid, section.getInt("arrow"));
+            if (section.contains("pearl")) pearl.put(uuid, section.getInt("pearl"));
+        }
+    }
+
 
     public static JavaPlugin getPlugin() {
         return plugin;

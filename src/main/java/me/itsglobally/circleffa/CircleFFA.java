@@ -4,14 +4,22 @@ import me.itsglobally.circleffa.commands.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+
 public final class CircleFFA extends JavaPlugin {
 
     private BukkitAudiences adventure;
+
+    File layoutFile;
+    FileConfiguration layoutConfig;
+    File starFile;
+    FileConfiguration starConfig;
 
     @Override
     public void onEnable() {
@@ -31,6 +39,23 @@ public final class CircleFFA extends JavaPlugin {
         data.setCurmap(data.getRandomMap());
         utils.changeMap();
 
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+
+        layoutFile = new File(getDataFolder(), "data.yml");
+        if (!layoutFile.exists()) {
+            saveResource(layoutFile.getAbsolutePath(), false);
+        }
+        layoutConfig = YamlConfiguration.loadConfiguration(layoutFile);
+        starConfig = YamlConfiguration.loadConfiguration(starFile);
+
+
+        data.loadLayouts(layoutFile);
+        starUtils.loadStar(starFile);
+        circleCoreApiUtils.setChatHandleByCore(false);
+
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -44,10 +69,11 @@ public final class CircleFFA extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        data.saveLayouts(layoutFile);
     }
 
     public BukkitAudiences adventure() {
         return this.adventure;
     }
 }
+
