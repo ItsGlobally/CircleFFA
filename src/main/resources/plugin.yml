@@ -17,8 +17,12 @@ commands:
     description: "gay"
   statsreset:
     permission: circleffa.statsreset
+  setstar:
+    permission: circleffa.setstar
 permissions:
   circleffa.togglebm:
     default: op
   circleffa.statsreset:
+    default: op
+  circleffa.setstar:
     default: op

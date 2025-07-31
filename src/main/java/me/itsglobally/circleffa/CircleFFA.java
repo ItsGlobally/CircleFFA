@@ -31,6 +31,7 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("toggleBm").setExecutor(new toggleBm());
         getCommand("changeMap").setExecutor(new changeMap());
         getCommand("statsreset").setExecutor(new statsreset());
+        getCommand("setStar").setExecutor(new setStar());
         data.setInstance(this);
         data.setPlugin(this);
         data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));
@@ -47,12 +48,17 @@ public final class CircleFFA extends JavaPlugin {
         if (!layoutFile.exists()) {
             saveResource(layoutFile.getAbsolutePath(), false);
         }
+        starFile = new File(getDataFolder(), "star.yml");
+        if (!starFile.exists()) {
+            saveResource(starFile.getAbsolutePath(), false);
+        }
         layoutConfig = YamlConfiguration.loadConfiguration(layoutFile);
         starConfig = YamlConfiguration.loadConfiguration(starFile);
 
 
         data.loadLayouts(layoutFile);
         starUtils.loadStar(starFile);
+        starUtils.loadXp(starFile);
         circleCoreApiUtils.setChatHandleByCore(false);
 
 
@@ -71,6 +77,7 @@ public final class CircleFFA extends JavaPlugin {
     public void onDisable() {
         data.saveLayouts(layoutFile);
         starUtils.saveStar(starFile);
+        starUtils.saveXp(starFile);
     }
 
     public BukkitAudiences adventure() {
