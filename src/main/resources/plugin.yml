@@ -19,10 +19,14 @@ commands:
     permission: circleffa.statsreset
   setstar:
     permission: circleffa.setstar
+  setxp:
+    permission: circleffa.setxp
 permissions:
   circleffa.togglebm:
     default: op
   circleffa.statsreset:
     default: op
   circleffa.setstar:
+    default: op
+  circleffa.setxp:
     default: op

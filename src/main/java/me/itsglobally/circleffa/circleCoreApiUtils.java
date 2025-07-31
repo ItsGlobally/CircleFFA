@@ -9,7 +9,7 @@ public class circleCoreApiUtils {
         try {
             Class<?> apiClass = Class.forName("me.itsglobally.circlecore.api");
 
-            Method method = apiClass.getMethod("setChatHandleByCore", Boolean.class);
+            Method method = apiClass.getMethod("setChatFormat", Boolean.class);
 
             method.invoke(null, s);
 

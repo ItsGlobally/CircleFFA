@@ -20,6 +20,8 @@ public final class CircleFFA extends JavaPlugin {
     FileConfiguration layoutConfig;
     File starFile;
     FileConfiguration starConfig;
+    File xpFile;
+    FileConfiguration xpConfig;
 
     @Override
     public void onEnable() {
@@ -53,13 +55,18 @@ public final class CircleFFA extends JavaPlugin {
         if (!starFile.exists()) {
             saveResource(starFile.getAbsolutePath(), false);
         }
+        xpFile = new File(getDataFolder(), "xp.yml");
+        if (!xpFile.exists()) {
+            saveResource(xpFile.getAbsolutePath(), false);
+        }
         layoutConfig = YamlConfiguration.loadConfiguration(layoutFile);
         starConfig = YamlConfiguration.loadConfiguration(starFile);
+        xpConfig = YamlConfiguration.loadConfiguration(xpFile);
 
 
         data.loadLayouts(layoutFile);
         starUtils.loadStar(starFile);
-        starUtils.loadXp(starFile);
+        starUtils.loadXp(xpFile);
         circleCoreApiUtils.setChatHandleByCore(false);
 
 
@@ -78,7 +85,7 @@ public final class CircleFFA extends JavaPlugin {
     public void onDisable() {
         data.saveLayouts(layoutFile);
         starUtils.saveStar(starFile);
-        starUtils.saveXp(starFile);
+        starUtils.saveXp(xpFile);
     }
 
     public BukkitAudiences adventure() {
