@@ -7,11 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class setStar implements CommandExecutor {
+public class setXp implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length < 1) {
-            commandSender.sendMessage("§c/setStar (player) (star)");
+            commandSender.sendMessage("§c/setStar (player) (XP)");
             return true;
         }
         Player p = Bukkit.getPlayerExact(strings[0]);
@@ -26,7 +26,7 @@ public class setStar implements CommandExecutor {
             commandSender.sendMessage("§cEnter a vaild number.");
             return true;
         }
-        starUtils.setStar(p.getUniqueId(), star);
+        starUtils.setXp(p.getUniqueId(), star);
         return true;
     }
 }

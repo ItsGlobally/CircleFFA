@@ -32,6 +32,7 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("changeMap").setExecutor(new changeMap());
         getCommand("statsreset").setExecutor(new statsreset());
         getCommand("setStar").setExecutor(new setStar());
+        getCommand("setXp").setExecutor(new setXp());
         data.setInstance(this);
         data.setPlugin(this);
         data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));

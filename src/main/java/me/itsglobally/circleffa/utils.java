@@ -173,6 +173,9 @@ public class utils {
             handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
             spawn(p.getUniqueId());
         }
+        DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+                .sendMessage("Map has changed")
+                .queue();
         Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
     }
 
