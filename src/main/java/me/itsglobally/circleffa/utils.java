@@ -150,7 +150,7 @@ public class utils {
         data.addks(klru);
         data.addKill(klru, 1L);
         data.addDies(p.getUniqueId());
-        starUtils.addStar(klru, data.getks(klru));
+        starUtils.addXp(klru, data.getks(klru));
         long streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
             for (Player op : Bukkit.getOnlinePlayers()) {

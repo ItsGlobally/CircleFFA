@@ -102,8 +102,8 @@ public class starUtils {
             long starsToAdd = currentXp / 100;
             long remainingXp = currentXp % 100;
 
-            addStar(u, starsToAdd);     // Add stars based on XP
-            xp.put(u, remainingXp);     // Store leftover XP
+            addStar(u, starsToAdd);
+            xp.put(u, remainingXp);
         }
     }
 
