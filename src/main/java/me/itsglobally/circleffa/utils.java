@@ -12,13 +12,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.*;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class utils {
     public static void spawn(UUID u) {
@@ -145,12 +141,11 @@ public class utils {
             DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
                     .sendMessage(klr.getName() + " killed " + p.getName())
                     .queue();
-
+            MongoStatUtil.addDies(p.getUniqueId());
         }
         data.setks(pu, 0L);
         data.addks(klru);
         MongoStatUtil.addKill(klru);
-        MongoStatUtil.addDies(p.getUniqueId());
         MongoStatUtil.addXp(klru, data.getks(klru));
         long streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
@@ -196,11 +191,21 @@ public class utils {
         mapTask.runTaskLater(data.getPlugin(), 10 * 60 * 20L);
     }
 
-    public static void updateScoreBorad(UUID u) {
+    // A map to store player UUID -> Set of scoreboard entries you added
+    private static final Map<UUID, Set<String>> playerScoreEntries = new HashMap<>();
+
+    public static void updateScoreBoard(UUID u) {
         Player p = Bukkit.getPlayer(u);
         if (p == null) return;
 
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard sb = p.getScoreboard();
+
+        if (sb == null || sb == manager.getMainScoreboard()) {
+            sb = manager.getNewScoreboard();
+            p.setScoreboard(sb);
+        }
+
         Objective obj = sb.getObjective("stats");
         if (obj == null) {
             obj = sb.registerNewObjective("stats", "dummy");
@@ -208,24 +213,59 @@ public class utils {
             obj.setDisplayName("§dCircle FFA");
         }
 
-        for (String entry : sb.getEntries()) {
-            if (obj.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(entry) != null) {
-                sb.resetScores(entry);
-            }
+        // Clear old scores you added previously
+        Set<String> oldEntries = playerScoreEntries.getOrDefault(u, new HashSet<>());
+        for (String entry : oldEntries) {
+            sb.resetScores(entry);
         }
 
-        obj.getScore("§r§7--------------").setScore(10);
-        obj.getScore("§aStars: " + "§7[" + starUtils.getStar(u) + "✫]").setScore(9);
-        obj.getScore("§aXP: " + starUtils.getXp(u)).setScore(9);
-        obj.getScore("§aKills: " + MongoStatUtil.getKills(u)).setScore(7);
-        obj.getScore("§aDeaths: " + MongoStatUtil.getDies(u)).setScore(6);
-        obj.getScore("§aKillstreaks: " + data.getks(u)).setScore(5);
+        // Prepare new entries
+        Set<String> newEntries = new HashSet<>();
+
+        String line1 = "§r§7--------------";
+        obj.getScore(line1).setScore(10);
+        newEntries.add(line1);
+
+        String line2 = "§aStars: §7[" + starUtils.getStar(u) + "✫]";
+        obj.getScore(line2).setScore(9);
+        newEntries.add(line2);
+
+        String line3 = "§aXP: " + starUtils.getXp(u);
+        obj.getScore(line3).setScore(8);
+        newEntries.add(line3);
+
+        String line4 = "§aKills: " + MongoStatUtil.getKills(u);
+        obj.getScore(line4).setScore(7);
+        newEntries.add(line4);
+
+        String line5 = "§aDeaths: " + MongoStatUtil.getDies(u);
+        obj.getScore(line5).setScore(6);
+        newEntries.add(line5);
+
+        String line6 = "§aKillstreaks: " + data.getks(u);
+        obj.getScore(line6).setScore(5);
+        newEntries.add(line6);
+
         double kdr = MongoStatUtil.getDies(u) == 0 ? MongoStatUtil.getKills(u) : (double) MongoStatUtil.getKills(u) / MongoStatUtil.getDies(u);
         String kdrFormatted = String.format("%.2f", kdr);
-        obj.getScore("§aKDR: " + kdrFormatted).setScore(4);
-        obj.getScore("§7--------------").setScore(3);
-        obj.getScore("§ditsglobally.top").setScore(1);
+        String line7 = "§aKDR: " + kdrFormatted;
+        obj.getScore(line7).setScore(4);
+        newEntries.add(line7);
+
+        String line8 = "§7--------------";
+        obj.getScore(line8).setScore(3);
+        newEntries.add(line8);
+
+        String line9 = "§ditsglobally.top";
+        obj.getScore(line9).setScore(1);
+        newEntries.add(line9);
+
+        // Update cache
+        playerScoreEntries.put(u, newEntries);
     }
+
+
+
 
 
 }

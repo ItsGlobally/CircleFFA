@@ -34,6 +34,7 @@ public final class CircleFFA extends JavaPlugin {
         data.setPlugin(this);
         data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));
         data.addMap(new Location(Bukkit.getWorld("ffa"), 1000.5, 201, 1000.5));
+        data.addMap(new Location(Bukkit.getWorld("ffa"), 1000.5, 201, 0.5));
 
         data.setCurmap(data.getRandomMap());
         utils.changeMap();
@@ -47,6 +48,7 @@ public final class CircleFFA extends JavaPlugin {
             saveResource(layoutFile.getAbsolutePath(), false);
         }
 
+        data.loadLayouts(layoutFile);
 
 
         circleCoreApiUtils.setChatHandleByCore(false);
@@ -56,7 +58,7 @@ public final class CircleFFA extends JavaPlugin {
             @Override
             public void run() {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    utils.updateScoreBorad(p.getUniqueId());
+                    utils.updateScoreBoard(p.getUniqueId());
                 }
             }
         }.runTaskTimer(this, 0, 20);

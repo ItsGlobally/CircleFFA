@@ -94,7 +94,39 @@ public class data {
         }
         return null;
     }
+    public static void loadLayouts(File file) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
+        ConfigurationSection layouts = config.getConfigurationSection("layouts");
+        if (layouts == null) return;
+
+        for (String uuidString : layouts.getKeys(false)) {
+            UUID uuid = UUID.fromString(uuidString);
+            ConfigurationSection section = layouts.getConfigurationSection(uuidString);
+            if (section == null) continue;
+
+            if (section.contains("sword")) sword.put(uuid, section.getInt("sword"));
+            if (section.contains("block")) block.put(uuid, section.getInt("block"));
+            if (section.contains("tool")) tool.put(uuid, section.getInt("tool"));
+            if (section.contains("bow")) bow.put(uuid, section.getInt("bow"));
+            if (section.contains("arrow")) arrow.put(uuid, section.getInt("arrow"));
+            if (section.contains("pearl")) pearl.put(uuid, section.getInt("pearl"));
+        }
+    }
+    public static void loadKills(File starFile) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(starFile);
+        if (!config.isConfigurationSection("kills")) return;
+
+        for (String key : config.getConfigurationSection("kills").getKeys(false)) {
+            try {
+                UUID uuid = UUID.fromString(key);
+                long value = config.getLong("kills." + key);
+                kills.put(uuid, value);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID in kills.yml: " + key);
+            }
+        }
+    }
     public static JavaPlugin getPlugin() {
         return plugin;
     }
@@ -116,9 +148,9 @@ public class data {
         ks.put(p, k);
     }
     public static void addks(UUID p) {
-        ks.put(p, ks.get(p) + 1);
+        ks.put(p, ks.getOrDefault(p, 0L) + 1);
     }
-    public static Long getks(UUID p) { return ks.get(p); }
+    public static Long getks(UUID p) { return ks.getOrDefault(p, 0L); }
     private static final HashMap<UUID, UUID> lastHit = new HashMap<>();
     public static void setLastHit(UUID p, UUID tg) {
         lastHit.put(p, tg);

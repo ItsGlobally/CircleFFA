@@ -8,7 +8,7 @@ import org.bson.Document;
 import java.util.UUID;
 
 public class MongoStatUtil {
-    private static final String URI = "mongodb://localhost:27017"; // Change if needed
+    private static final String URI = "mongodb://172.20.0.1:27017"; // Update if needed
     private static final String DB_NAME = "circleffa";
     private static final String COLLECTION_NAME = "playerStats";
 
@@ -21,9 +21,15 @@ public class MongoStatUtil {
         collection = db.getCollection(COLLECTION_NAME);
     }
 
+    // ===== Helper Methods =====
+
     private static Document getPlayerDoc(UUID uuid) {
         Document doc = collection.find(Filters.eq("uuid", uuid.toString())).first();
-        return doc == null ? new Document("uuid", uuid.toString()) : doc;
+        if (doc == null) {
+            doc = new Document("uuid", uuid.toString());
+            collection.insertOne(doc);
+        }
+        return doc;
     }
 
     private static void updateField(UUID uuid, String field, long value) {
@@ -42,7 +48,13 @@ public class MongoStatUtil {
         );
     }
 
-    // -------- STARS --------
+    private static long safeGetLong(Document doc, String key) {
+        Object value = doc.get(key);
+        return value instanceof Number ? ((Number) value).longValue() : 0L;
+    }
+
+    // ===== STARS =====
+
     public static void setStars(UUID uuid, long stars) {
         updateField(uuid, "stars", stars);
     }
@@ -52,11 +64,11 @@ public class MongoStatUtil {
     }
 
     public static long getStars(UUID uuid) {
-        return getPlayerDoc(uuid).getOrDefault("stars", 0L) instanceof Number ?
-                ((Number) getPlayerDoc(uuid).get("stars")).longValue() : 0L;
+        return safeGetLong(getPlayerDoc(uuid), "stars");
     }
 
-    // -------- XP --------
+    // ===== XP =====
+
     public static void setXp(UUID uuid, long xp) {
         updateField(uuid, "xp", xp);
         handleXpOverflow(uuid);
@@ -68,8 +80,7 @@ public class MongoStatUtil {
     }
 
     public static long getXp(UUID uuid) {
-        return getPlayerDoc(uuid).getOrDefault("xp", 0L) instanceof Number ?
-                ((Number) getPlayerDoc(uuid).get("xp")).longValue() : 0L;
+        return safeGetLong(getPlayerDoc(uuid), "xp");
     }
 
     private static void handleXpOverflow(UUID uuid) {
@@ -82,31 +93,31 @@ public class MongoStatUtil {
         }
     }
 
-    // -------- KILLS --------
-    public static void addKill(UUID uuid) {
-        incrementField(uuid, "kills", 1);
-    }
-
-    public static long getKills(UUID uuid) {
-        return getPlayerDoc(uuid).getOrDefault("kills", 0L) instanceof Number ?
-                ((Number) getPlayerDoc(uuid).get("kills")).longValue() : 0L;
-    }
+    // ===== KILLS =====
 
     public static void setKills(UUID uuid, long kills) {
         updateField(uuid, "kills", kills);
     }
 
-    // -------- DIES --------
+    public static void addKill(UUID uuid) {
+        incrementField(uuid, "kills", 1);
+    }
+
+    public static long getKills(UUID uuid) {
+        return safeGetLong(getPlayerDoc(uuid), "kills");
+    }
+
+    // ===== DIES =====
+
+    public static void setDies(UUID uuid, long dies) {
+        updateField(uuid, "dies", dies);
+    }
+
     public static void addDies(UUID uuid) {
         incrementField(uuid, "dies", 1);
     }
 
     public static long getDies(UUID uuid) {
-        return getPlayerDoc(uuid).getOrDefault("dies", 0L) instanceof Number ?
-                ((Number) getPlayerDoc(uuid).get("dies")).longValue() : 0L;
-    }
-
-    public static void setDies(UUID uuid, long dies) {
-        updateField(uuid, "dies", dies);
+        return safeGetLong(getPlayerDoc(uuid), "dies");
     }
 }

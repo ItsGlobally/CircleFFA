@@ -84,7 +84,7 @@ public class events implements Listener {
 
         if (damager != null) {
             data.setLastHit(p.getUniqueId(), damager.getUniqueId());
-            if (p.getHealth() < e.getFinalDamage()) {
+            if (p.getHealth() <= e.getFinalDamage()) {
                 e.setCancelled(true);
                 utils.spawn(p.getUniqueId());
                 utils.handleKill(p.getUniqueId(), damager.getUniqueId());
@@ -112,7 +112,7 @@ public class events implements Listener {
     }
     @EventHandler
     public void playerjoin(PlayerJoinEvent e) {
-        utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
+        // utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0L);
         data.setLastHit(e.getPlayer().getUniqueId(), null);
