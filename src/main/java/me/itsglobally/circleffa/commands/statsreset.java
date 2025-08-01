@@ -1,5 +1,6 @@
 package me.itsglobally.circleffa.commands;
 
+import me.itsglobally.circleffa.MongoStatUtil;
 import me.itsglobally.circleffa.data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,8 +24,8 @@ public class statsreset implements CommandExecutor {
         }
         UUID u = p2.getUniqueId();
         data.setks(u, 0L);
-        data.setDies(u, 0L);
-        data.setKill(u, 0L);
+        MongoStatUtil.setDies(u, 0L);
+        MongoStatUtil.setKills(u, 0L);
         commandSender.sendMessage("§aYou've reseted " + p2.getDisplayName() + "§a's stats");
         return true;
     }

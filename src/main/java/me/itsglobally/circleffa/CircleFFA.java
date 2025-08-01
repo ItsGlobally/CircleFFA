@@ -17,16 +17,6 @@ public final class CircleFFA extends JavaPlugin {
     private BukkitAudiences adventure;
 
     File layoutFile;
-    FileConfiguration layoutConfig;
-    File starFile;
-    FileConfiguration starConfig;
-    File xpFile;
-    FileConfiguration xpConfig;
-    File killsFile;
-    FileConfiguration killsConfig;
-    File diesFile;
-    FileConfiguration diesConfig;
-
 
     @Override
     public void onEnable() {
@@ -56,35 +46,9 @@ public final class CircleFFA extends JavaPlugin {
         if (!layoutFile.exists()) {
             saveResource(layoutFile.getAbsolutePath(), false);
         }
-        starFile = new File(getDataFolder(), "star.yml");
-        if (!starFile.exists()) {
-            saveResource(starFile.getAbsolutePath(), false);
-        }
-        xpFile = new File(getDataFolder(), "xp.yml");
-        if (!xpFile.exists()) {
-            saveResource(xpFile.getAbsolutePath(), false);
-        }
-        killsFile = new File(getDataFolder(), "kills.yml");
-        if (!killsFile.exists()) {
-            saveResource(xpFile.getAbsolutePath(), false);
-        }
-        diesFile = new File(getDataFolder(), "dies.yml");
-        if (!diesFile.exists()) {
-            saveResource(diesFile.getAbsolutePath(), false);
-        }
-
-        layoutConfig = YamlConfiguration.loadConfiguration(layoutFile);
-        starConfig = YamlConfiguration.loadConfiguration(starFile);
-        xpConfig = YamlConfiguration.loadConfiguration(xpFile);
-        diesConfig = YamlConfiguration.loadConfiguration(diesFile);
-        killsConfig = YamlConfiguration.loadConfiguration(killsFile);
 
 
-        data.loadKills(killsFile);
-        data.loadDies(diesFile);
-        data.loadLayouts(layoutFile);
-        starUtils.loadStar(starFile);
-        starUtils.loadXp(xpFile);
+
         circleCoreApiUtils.setChatHandleByCore(false);
 
 
@@ -102,8 +66,6 @@ public final class CircleFFA extends JavaPlugin {
     @Override
     public void onDisable() {
         data.saveLayouts(layoutFile);
-        starUtils.saveStar(starFile);
-        starUtils.saveXp(xpFile);
     }
 
     public BukkitAudiences adventure() {

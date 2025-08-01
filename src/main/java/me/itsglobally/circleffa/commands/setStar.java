@@ -1,5 +1,6 @@
 package me.itsglobally.circleffa.commands;
 
+import me.itsglobally.circleffa.MongoStatUtil;
 import me.itsglobally.circleffa.starUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -26,7 +27,7 @@ public class setStar implements CommandExecutor {
             commandSender.sendMessage("§cEnter a vaild number.");
             return true;
         }
-        starUtils.setStar(p.getUniqueId(), star);
+        MongoStatUtil.setStars(p.getUniqueId(), star);
         return true;
     }
 }

@@ -117,7 +117,6 @@ public class events implements Listener {
         data.setks(e.getPlayer().getUniqueId(), 0L);
         data.setLastHit(e.getPlayer().getUniqueId(), null);
         data.initBlock(e.getPlayer().getUniqueId());
-        data.addKill(e.getPlayer().getUniqueId(), 0L);
 
     }
 

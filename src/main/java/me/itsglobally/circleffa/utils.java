@@ -149,9 +149,9 @@ public class utils {
         }
         data.setks(pu, 0L);
         data.addks(klru);
-        data.addKill(klru, 1L);
-        data.addDies(p.getUniqueId());
-        starUtils.addXp(klru, data.getks(klru));
+        MongoStatUtil.addKill(klru);
+        MongoStatUtil.addDies(p.getUniqueId());
+        MongoStatUtil.addXp(klru, data.getks(klru));
         long streak = data.getks(klru);
         if (streak >= 10 && streak % 5 == 0) {
             for (Player op : Bukkit.getOnlinePlayers()) {
@@ -217,10 +217,10 @@ public class utils {
         obj.getScore("§r§7--------------").setScore(10);
         obj.getScore("§aStars: " + "§7[" + starUtils.getStar(u) + "✫]").setScore(9);
         obj.getScore("§aXP: " + starUtils.getXp(u)).setScore(9);
-        obj.getScore("§aKills: " + data.getKill(u)).setScore(7);
-        obj.getScore("§aDeaths: " + data.getDies(u)).setScore(6);
+        obj.getScore("§aKills: " + MongoStatUtil.getKills(u)).setScore(7);
+        obj.getScore("§aDeaths: " + MongoStatUtil.getDies(u)).setScore(6);
         obj.getScore("§aKillstreaks: " + data.getks(u)).setScore(5);
-        double kdr = data.getDies(u) == 0 ? data.getKill(u) : (double) data.getKill(u) / data.getDies(u);
+        double kdr = MongoStatUtil.getDies(u) == 0 ? MongoStatUtil.getKills(u) : (double) MongoStatUtil.getKills(u) / MongoStatUtil.getDies(u);
         String kdrFormatted = String.format("%.2f", kdr);
         obj.getScore("§aKDR: " + kdrFormatted).setScore(4);
         obj.getScore("§7--------------").setScore(3);
