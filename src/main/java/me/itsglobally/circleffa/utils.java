@@ -17,6 +17,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class utils {
@@ -174,6 +175,9 @@ public class utils {
             spawn(p.getUniqueId());
         }
         Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
+        if (DiscordSRV.getPlugin().getJda() != null) Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L))
+                .sendMessage("Map changed")
+                .queue();
     }
 
     public static void startMapRotation() {

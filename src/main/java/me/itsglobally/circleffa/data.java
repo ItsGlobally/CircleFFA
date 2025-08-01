@@ -114,7 +114,62 @@ public class data {
             if (section.contains("pearl")) pearl.put(uuid, section.getInt("pearl"));
         }
     }
+    public static void loadKills(File starFile) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(starFile);
+        if (!config.isConfigurationSection("kills")) return;
 
+        for (String key : config.getConfigurationSection("kills").getKeys(false)) {
+            try {
+                UUID uuid = UUID.fromString(key);
+                long value = config.getLong("kills." + key);
+                kills.put(uuid, value);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID in kills.yml: " + key);
+            }
+        }
+    }
+
+    public static void saveKills(File starFile) {
+        FileConfiguration config = new YamlConfiguration();
+
+        for (UUID uuid : kills.keySet()) {
+            config.set("kills." + uuid.toString(), kills.get(uuid));
+        }
+
+        try {
+            config.save(starFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadDies(File starFile) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(starFile);
+        if (!config.isConfigurationSection("dies")) return;
+
+        for (String key : config.getConfigurationSection("dies").getKeys(false)) {
+            try {
+                UUID uuid = UUID.fromString(key);
+                long value = config.getLong("dies." + key);
+                dies.put(uuid, value);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID in dies.yml: " + key);
+            }
+        }
+    }
+
+    public static void saveDies(File starFile) {
+        FileConfiguration config = new YamlConfiguration();
+
+        for (UUID uuid : dies.keySet()) {
+            config.set("dies." + uuid.toString(), dies.get(uuid));
+        }
+
+        try {
+            config.save(starFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static JavaPlugin getPlugin() {
         return plugin;

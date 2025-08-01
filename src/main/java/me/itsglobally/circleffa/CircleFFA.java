@@ -22,6 +22,11 @@ public final class CircleFFA extends JavaPlugin {
     FileConfiguration starConfig;
     File xpFile;
     FileConfiguration xpConfig;
+    File killsFile;
+    FileConfiguration killsConfig;
+    File diesFile;
+    FileConfiguration diesConfig;
+
 
     @Override
     public void onEnable() {
@@ -59,11 +64,24 @@ public final class CircleFFA extends JavaPlugin {
         if (!xpFile.exists()) {
             saveResource(xpFile.getAbsolutePath(), false);
         }
+        killsFile = new File(getDataFolder(), "kills.yml");
+        if (!killsFile.exists()) {
+            saveResource(xpFile.getAbsolutePath(), false);
+        }
+        diesFile = new File(getDataFolder(), "dies.yml");
+        if (!diesFile.exists()) {
+            saveResource(diesFile.getAbsolutePath(), false);
+        }
+
         layoutConfig = YamlConfiguration.loadConfiguration(layoutFile);
         starConfig = YamlConfiguration.loadConfiguration(starFile);
         xpConfig = YamlConfiguration.loadConfiguration(xpFile);
+        diesConfig = YamlConfiguration.loadConfiguration(diesFile);
+        killsConfig = YamlConfiguration.loadConfiguration(killsFile);
 
 
+        data.loadKills(killsFile);
+        data.loadDies(diesFile);
         data.loadLayouts(layoutFile);
         starUtils.loadStar(starFile);
         starUtils.loadXp(xpFile);
