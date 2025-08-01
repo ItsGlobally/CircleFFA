@@ -83,7 +83,7 @@ public class events implements Listener {
         }
 
         if (damager != null) {
-            data.setLastHit(p.getUniqueId(), damager.getUniqueId());
+            if (p != damager) data.setLastHit(p.getUniqueId(), damager.getUniqueId());
             if (p.getHealth() <= e.getFinalDamage()) {
                 e.setCancelled(true);
                 utils.spawn(p.getUniqueId());
