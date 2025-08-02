@@ -26,6 +26,8 @@ public class statsreset implements CommandExecutor {
         data.setks(u, 0L);
         MongoStatUtil.setDies(u, 0L);
         MongoStatUtil.setKills(u, 0L);
+        MongoStatUtil.setXp(u, 0L);
+        MongoStatUtil.setStars(u, 0L);
         commandSender.sendMessage("§aYou've reseted " + p2.getDisplayName() + "§a's stats");
         return true;
     }

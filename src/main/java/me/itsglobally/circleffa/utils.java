@@ -92,7 +92,10 @@ public class utils {
     public static void handleKill(UUID pu, UUID klru) {
         Player p = Bukkit.getPlayer(pu);
         Player klr = Bukkit.getPlayer(klru);
-        if (pu == klru) return;
+        if (pu == klru) {
+            data.setks(pu, 0L);
+            return;
+        }
         if (klr == null) return;
 
         klr.getInventory().setItem(
@@ -226,11 +229,11 @@ public class utils {
         obj.getScore(line1).setScore(10);
         newEntries.add(line1);
 
-        String line2 = "§aStars: §7[" + starUtils.getStar(u) + "✫]";
+        String line2 = "§aStars: §7[" + MongoStatUtil.getStars(u) + "✫]";
         obj.getScore(line2).setScore(9);
         newEntries.add(line2);
 
-        String line3 = "§aXP: " + starUtils.getXp(u);
+        String line3 = "§aXP: " + MongoStatUtil.getXp(u);
         obj.getScore(line3).setScore(8);
         newEntries.add(line3);
 

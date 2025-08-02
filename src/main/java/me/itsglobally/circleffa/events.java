@@ -155,6 +155,6 @@ public class events implements Listener {
     }
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        Bukkit.broadcastMessage("§7[" + starUtils.getStar(e.getPlayer().getUniqueId()) + "✫] §r" + e.getPlayer().getDisplayName() + "§r» " + e.getMessage());
+        Bukkit.broadcastMessage("§7[" + MongoStatUtil.getStars(e.getPlayer().getUniqueId()) + "✫] §r" + e.getPlayer().getDisplayName() + " §r» " + e.getMessage());
     }
 }
