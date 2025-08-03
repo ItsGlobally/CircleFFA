@@ -137,11 +137,11 @@ public class utils {
                     op.playSound(op.getLocation(), Sound.SKELETON_DEATH, 0.75f, 2.0f);
                 }
                 Bukkit.broadcastMessage(klrdn + " §ahas ended " + p.getDisplayName() + "§a's " + data.getks(pu) + " killstreaks!");
-                DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+                DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L)
                         .sendMessage(klr.getName() + " has ended " + p.getName() + "'s " + data.getks(pu) + " killstreaks!")
                         .queue();
             }
-            DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+            DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L)
                     .sendMessage(klr.getName() + " killed " + p.getName())
                     .queue();
             MongoStatUtil.addDies(p.getUniqueId());
@@ -156,7 +156,7 @@ public class utils {
                 op.playSound(op.getLocation(), Sound.ENDERDRAGON_GROWL, 0.75f, 2.0f);
             }
             Bukkit.broadcastMessage(klrdn + " §ahas reached " + streak + " §akillstreaks!");
-            DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L)
+            DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L)
                     .sendMessage(klr.getName() + " has reached " + streak + " killstreaks!")
                     .queue();
         }
@@ -173,7 +173,7 @@ public class utils {
             spawn(p.getUniqueId());
         }
         Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
-        if (DiscordSRV.getPlugin().getJda() != null) Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1392853553369972756L))
+        if (DiscordSRV.getPlugin().getJda() != null) Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L))
                 .sendMessage("Map changed")
                 .queue();
     }
