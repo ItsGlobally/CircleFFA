@@ -27,7 +27,9 @@ public class utils {
         Player p = Bukkit.getPlayer(u);
         data.setPlayerGamemode(u, "LOBBY");
         handleKill(u, data.getLastHit(u));
-        p.teleport(new Location(Bukkit.getWorld("ffa"), 2001, 201, 2001));
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
+        p.teleport(new Location(Bukkit.getWorld("ffa"), 2001.5, 201, 2001.5));
     }
 
     public static void spawn(UUID u) {
