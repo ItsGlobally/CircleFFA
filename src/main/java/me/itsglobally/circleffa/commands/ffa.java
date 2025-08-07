@@ -58,7 +58,7 @@ public class ffa implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "setxp" -> {
-                if (p.hasPermission("circleffa.setxp")) {
+                if (!p.hasPermission("circleffa.setxp")) {
                     p.sendMessage("§cYou do not have permission to do that!");
                     return true;
                 }
@@ -82,7 +82,7 @@ public class ffa implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "setstar" -> {
-                if (p.hasPermission("circleffa.setstar")) {
+                if (!p.hasPermission("circleffa.setstar")) {
                     p.sendMessage("§cYou do not have permission to do that!");
                     return true;
                 }
@@ -110,7 +110,7 @@ public class ffa implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "statsreset" -> {
-                if (p.hasPermission("circleffa.statsreset")) {
+                if (!p.hasPermission("circleffa.statsreset")) {
                     p.sendMessage("§cYou do not have permission to do that!");
                     return true;
                 }
@@ -133,7 +133,7 @@ public class ffa implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "togglebm", "tbm" -> {
-                if (p.hasPermission("circleffa.togglebm")) {
+                if (!p.hasPermission("circleffa.togglebm")) {
                     p.sendMessage("§cYou do not have permission to do that!");
                     return true;
                 }
