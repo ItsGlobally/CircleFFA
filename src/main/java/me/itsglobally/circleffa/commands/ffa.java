@@ -8,11 +8,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class ffa implements CommandExecutor {
+public class ffa implements CommandExecutor, TabCompleter {
+
+    public static void kms(Player p) {
+        utils.spawn(p.getUniqueId());
+        UUID klr = data.getLastHit(p.getUniqueId());
+        if (klr == null) {
+            return;
+        }
+        utils.handleKill(p.getUniqueId(), klr);
+    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -136,12 +148,38 @@ public class ffa implements CommandExecutor {
         }
         return true;
     }
-    public static void kms(Player p) {
-        utils.spawn(p.getUniqueId());
-        UUID klr = data.getLastHit(p.getUniqueId());
-        if (klr == null) {
-            return;
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (!(commandSender instanceof Player p)) {
+            return List.of();
         }
-        utils.handleKill(p.getUniqueId(), klr);
+        int at = strings.length;
+        if (at == 1) {
+            if (p.hasPermission("circleffa.admin")) {
+                return List.of("join", "leave", "kms", "togglebm", "tbm", "statsreset", "setxp", "setstar");
+            }
+            return List.of("join", "leave", "kms");
+        }
+        switch (strings[0]) {
+            case "statsreset" -> {
+                final List<String> list = new ArrayList<>();
+                for (Player op : Bukkit.getOnlinePlayers()) {
+                    list.add(op.getName());
+                }
+                return list;
+            }
+            case "setxp", "setstar" -> {
+                if (at == 3) {
+                    return List.of("Input_numbers_you_want_to_set");
+                }
+                final List<String> list = new ArrayList<>();
+                for (Player op : Bukkit.getOnlinePlayers()) {
+                    list.add(op.getName());
+                }
+                return list;
+            }
+        }
+        return List.of();
     }
 }

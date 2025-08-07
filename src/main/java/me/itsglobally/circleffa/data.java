@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,8 +20,16 @@ public class data {
     private static final HashMap<UUID, Integer> bow = new HashMap<>();
     private static final HashMap<UUID, Integer> arrow = new HashMap<>();
     private static final HashMap<UUID, Integer> pearl = new HashMap<>();
+    private static final HashMap<UUID, Long> ks = new HashMap<>();
+    private static final HashMap<UUID, UUID> lastHit = new HashMap<>();
+    private static final List<Location> maps = new ArrayList<>();
+    private static final HashMap<UUID, Long> kills = new HashMap<>();
+    private static final HashMap<UUID, Long> dies = new HashMap<>();
+    private static final HashMap<UUID, String> pgm = new HashMap<>();
     private static JavaPlugin plugin;
     private static CircleFFA instance;
+    private static final HashMap<UUID, List<Location>> blocks = new HashMap<>();
+    private static Location curmap;
 
     public static void toggleBm(UUID p) {
         bm.put(p, !bm.getOrDefault(p, false));
@@ -42,6 +49,7 @@ public class data {
             case "pearl" -> pearl.put(p, e);
         }
     }
+
     public static void saveLayouts(File file) {
         FileConfiguration config = new YamlConfiguration();
 
@@ -89,12 +97,13 @@ public class data {
             case "arrow" -> {
                 return arrow.getOrDefault(p, 4);
             }
-            case "pearl" ->{
+            case "pearl" -> {
                 return pearl.getOrDefault(p, 5);
             }
         }
         return null;
     }
+
     public static void loadLayouts(File file) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -114,6 +123,7 @@ public class data {
             if (section.contains("pearl")) pearl.put(uuid, section.getInt("pearl"));
         }
     }
+
     public static void loadKills(File starFile) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(starFile);
         if (!config.isConfigurationSection("kills")) return;
@@ -128,6 +138,7 @@ public class data {
             }
         }
     }
+
     public static JavaPlugin getPlugin() {
         return plugin;
     }
@@ -144,85 +155,94 @@ public class data {
         data.instance = instance;
     }
 
-    private static final HashMap<UUID, Long> ks = new HashMap<>();
     public static void setks(UUID p, Long k) {
         ks.put(p, k);
     }
+
     public static void addks(UUID p) {
         ks.put(p, ks.getOrDefault(p, 0L) + 1);
     }
-    public static Long getks(UUID p) { return ks.getOrDefault(p, 0L); }
-    private static final HashMap<UUID, UUID> lastHit = new HashMap<>();
+
+    public static Long getks(UUID p) {
+        return ks.getOrDefault(p, 0L);
+    }
+
     public static void setLastHit(UUID p, UUID tg) {
         lastHit.put(p, tg);
     }
+
     @Nullable
     public static UUID getLastHit(UUID p) {
         return lastHit.get(p);
     }
 
-    private static HashMap<UUID, List<Location>> blocks = new HashMap<>();
     public static void initBlock(UUID p) {
         List<Location> e = new ArrayList<>();
         e.add(new Location(Bukkit.getWorld("ffa"), 0, 0, 0));
         blocks.put(p, e);
     }
+
     public static void addPlacedBlock(UUID p, Location l) {
         final List<Location> e = blocks.get(p);
         e.add(l);
         blocks.put(p, e);
     }
+
     public static List<Location> getPlacedBlock(UUID p) {
         return blocks.get(p);
     }
+
     public static void removePlacedBlocks(UUID p) {
         blocks.remove(p);
     }
+
     public static void removePlacedBlock(UUID p, Location l) {
         List<Location> e = blocks.get(p);
         if (e != null) {
             e.remove(l);
         }
     }
-    private static final List<Location> maps = new ArrayList<>();
 
     public static void addMap(Location l) {
         maps.add(l);
     }
+
     public static Location getRandomMap() {
         return maps.get(new Random().nextInt(maps.size()));
-    }
-    private static Location curmap;
-    public static void setCurmap(Location l) {
-        curmap = l;
     }
 
     public static Location getCurmap() {
         return curmap;
     }
 
-    private static final HashMap<UUID, Long> kills = new HashMap<>();
+    public static void setCurmap(Location l) {
+        curmap = l;
+    }
+
     public static void addKill(UUID p, Long l) {
         kills.put(p, kills.getOrDefault(p, 0L) + l);
     }
+
     public static Long getKill(UUID p) {
         return kills.getOrDefault(p, 0L);
     }
+
     public static void setKill(UUID p, Long l) {
         kills.put(p, l);
     }
-    private static final HashMap<UUID, Long> dies = new HashMap<>();
+
     public static void addDies(UUID p) {
         dies.put(p, dies.getOrDefault(p, 0L) + 1);
     }
+
     public static Long getDies(UUID p) {
         return dies.getOrDefault(p, 0L);
     }
+
     public static void setDies(UUID p, Long l) {
         dies.put(p, l);
     }
 
-    private static final HashMap<UUID, String> pgm = new HashMap<>();
     /*
     LOBBY
     KBFFA

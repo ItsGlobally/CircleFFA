@@ -20,3 +20,5 @@ permissions:
     default: op
   circleffa.setxp:
     default: op
+  circleffa.admin:
+    default: op

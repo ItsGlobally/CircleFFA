@@ -1,7 +1,6 @@
 package me.itsglobally.circleffa;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.util.DiscordUtil;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -12,17 +11,25 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
 
 public class utils {
+
+    // A map to store player UUID -> Set of scoreboard entries you added
+    private static final Map<UUID, Set<String>> playerScoreEntries = new HashMap<>();
+    private static BukkitRunnable mapTask;
 
     public static void joinFFA(UUID u) {
         Player p = Bukkit.getPlayer(u);
         data.setPlayerGamemode(u, "KBFFA");
         spawn(u);
     }
+
     public static void joinLobby(UUID u) {
         Player p = Bukkit.getPlayer(u);
         data.setPlayerGamemode(u, "LOBBY");
@@ -71,6 +78,7 @@ public class utils {
         is.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 4);
         return is;
     }
+
     private static ItemStack armor2(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         im.spigot().setUnbreakable(true);
@@ -181,8 +189,6 @@ public class utils {
         }
     }
 
-    private static BukkitRunnable mapTask;
-
     public static void changeMap() {
         data.setCurmap(data.getRandomMap());
         Bukkit.broadcastMessage("§eMap has changed!");
@@ -192,9 +198,10 @@ public class utils {
             spawn(p.getUniqueId());
         }
         Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
-        if (DiscordSRV.getPlugin().getJda() != null) Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L))
-                .sendMessage("Map changed")
-                .queue();
+        if (DiscordSRV.getPlugin().getJda() != null)
+            Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L))
+                    .sendMessage("Map changed")
+                    .queue();
     }
 
     public static void startMapRotation() {
@@ -212,9 +219,6 @@ public class utils {
 
         mapTask.runTaskLater(data.getPlugin(), 10 * 60 * 20L);
     }
-
-    // A map to store player UUID -> Set of scoreboard entries you added
-    private static final Map<UUID, Set<String>> playerScoreEntries = new HashMap<>();
 
     public static void updateScoreBoard(UUID u) {
         Player p = Bukkit.getPlayer(u);

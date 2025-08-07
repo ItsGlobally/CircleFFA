@@ -52,6 +52,7 @@ public class starUtils {
             e.printStackTrace();
         }
     }
+
     public static void setXp(UUID u, Long l) {
         xp.put(u, l);
         handleXpOverflow(u);

@@ -1,6 +1,5 @@
 package me.itsglobally.circleffa;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,12 +46,14 @@ public class events implements Listener {
         }
         e.setCancelled(true);
     }
+
     @EventHandler
     public void onFallDamage(EntityDamageEvent e) {
         if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if (e.getPlayer().getLocation().getY() < 150) {
@@ -64,6 +65,7 @@ public class events implements Listener {
             }
         }
     }
+
     @EventHandler
     public void damage(EntityDamageByEntityEvent e) {
         if ((e.getEntity().getLocation().getY() > 200) || (e.getDamager().getLocation().getY() > 200)) {
@@ -105,11 +107,13 @@ public class events implements Listener {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void died(PlayerDeathEvent e) {
         e.getEntity().spigot().respawn();
         utils.spawn(e.getEntity().getUniqueId());
     }
+
     @EventHandler
     public void playerjoin(PlayerJoinEvent e) {
         // utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
@@ -127,17 +131,19 @@ public class events implements Listener {
         if (lastHit != null) {
             utils.handleKill(e.getPlayer().getUniqueId(), lastHit);
         }
-        for (Location l : data.getPlacedBlock(e.getPlayer().getUniqueId())){
+        for (Location l : data.getPlacedBlock(e.getPlayer().getUniqueId())) {
             l.getBlock().setType(Material.AIR);
         }
         data.removePlacedBlocks(e.getPlayer().getUniqueId());
     }
+
     @EventHandler
     public void onMobSpawn(CreatureSpawnEvent e) {
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER_EGG) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onItemUse(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player p) {
@@ -146,6 +152,7 @@ public class events implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
         if (e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
@@ -154,6 +161,7 @@ public class events implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Bukkit.broadcastMessage("§7[" + MongoStatUtil.getStars(e.getPlayer().getUniqueId()) + "✫] §r" + e.getPlayer().getDisplayName() + " §r» " + e.getMessage());

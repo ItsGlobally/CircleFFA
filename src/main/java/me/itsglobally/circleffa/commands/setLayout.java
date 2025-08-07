@@ -39,7 +39,7 @@ public class setLayout implements CommandExecutor, TabCompleter {
         }
 
         Audience ap = utils.getAudience(p);
-        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool") || block.equalsIgnoreCase("bow") || block.equalsIgnoreCase("arrow")  || block.equalsIgnoreCase("pearl")) {
+        if (block.equalsIgnoreCase("block") || block.equalsIgnoreCase("sword") || block.equalsIgnoreCase("tool") || block.equalsIgnoreCase("bow") || block.equalsIgnoreCase("arrow") || block.equalsIgnoreCase("pearl")) {
             data.setLayout(p.getUniqueId(), block.toLowerCase(), e - 1);
             ap.sendActionBar(Component.text("Set your " + block + " to slot " + e)); // or use MiniMessage
         } else {

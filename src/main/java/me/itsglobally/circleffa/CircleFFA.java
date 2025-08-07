@@ -1,6 +1,7 @@
 package me.itsglobally.circleffa;
 
-import me.itsglobally.circleffa.commands.*;
+import me.itsglobally.circleffa.commands.ffa;
+import me.itsglobally.circleffa.commands.setLayout;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,9 +13,8 @@ import java.io.File;
 
 public final class CircleFFA extends JavaPlugin {
 
-    private BukkitAudiences adventure;
-
     File layoutFile;
+    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
@@ -23,6 +23,7 @@ public final class CircleFFA extends JavaPlugin {
         getCommand("setLayout").setExecutor(new setLayout());
         getCommand("setLayout").setTabCompleter(new setLayout());
         getCommand("ffa").setExecutor(new ffa());
+        getCommand("ffa").setTabCompleter(new ffa());
         data.setInstance(this);
         data.setPlugin(this);
         data.addMap(new Location(Bukkit.getWorld("ffa"), 0.5, 201, 0.5));
