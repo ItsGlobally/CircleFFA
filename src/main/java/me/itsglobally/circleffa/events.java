@@ -113,6 +113,7 @@ public class events implements Listener {
     @EventHandler
     public void playerjoin(PlayerJoinEvent e) {
         // utils.getAudience(e.getPlayer()).sendPlayerListHeaderAndFooter(Component.text("§dCircle Network!\n§bYou are playing on §dCircle FFA!\n"), Component.text("\n§bitsglobally.top"));
+        data.setPlayerGamemode(e.getPlayer().getUniqueId(), "LOBBY");
         utils.spawn(e.getPlayer().getUniqueId());
         data.setks(e.getPlayer().getUniqueId(), 0L);
         data.setLastHit(e.getPlayer().getUniqueId(), null);

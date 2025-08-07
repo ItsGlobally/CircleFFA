@@ -17,8 +17,25 @@ import org.bukkit.scoreboard.*;
 import java.util.*;
 
 public class utils {
+
+    public static void joinFFA(UUID u) {
+        Player p = Bukkit.getPlayer(u);
+        data.setPlayerGamemode(u, "KBFFA");
+        spawn(u);
+    }
+    public static void joinLobby(UUID u) {
+        Player p = Bukkit.getPlayer(u);
+        data.setPlayerGamemode(u, "LOBBY");
+        handleKill(u, data.getLastHit(u));
+        p.teleport(new Location(Bukkit.getWorld("ffa"), 2001, 201, 2001));
+    }
+
     public static void spawn(UUID u) {
         Player p = Bukkit.getPlayer(u);
+        if (data.getPlayerMode(p.getUniqueId()).equals("LOBBY")) {
+            joinLobby(p.getUniqueId());
+            return;
+        }
         if (p == null) return;
 
         p.getInventory().clear();
@@ -168,7 +185,7 @@ public class utils {
         data.setCurmap(data.getRandomMap());
         Bukkit.broadcastMessage("§eMap has changed!");
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (data.getBm(p.getUniqueId())) continue;
+            if (data.getBm(p.getUniqueId()) || !Objects.equals(data.getPlayerMode(p.getUniqueId()), "KBFFA")) continue;
             handleKill(p.getUniqueId(), data.getLastHit(p.getUniqueId()));
             spawn(p.getUniqueId());
         }

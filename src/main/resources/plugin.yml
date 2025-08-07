@@ -21,6 +21,8 @@ commands:
     permission: circleffa.setstar
   setxp:
     permission: circleffa.setxp
+  ffa:
+    description: "ga"
 permissions:
   circleffa.togglebm:
     default: op

@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
@@ -220,4 +221,19 @@ public class data {
     public static void setDies(UUID p, Long l) {
         dies.put(p, l);
     }
+
+    private static final HashMap<UUID, String> pgm = new HashMap<>();
+    /*
+    LOBBY
+    KBFFA
+     */
+    public static void setPlayerGamemode(UUID u, String g) {
+        pgm.put(u, g);
+    }
+
+    public static String getPlayerMode(UUID u) {
+        return pgm.getOrDefault(u, "LOBBY");
+    }
+
+
 }
