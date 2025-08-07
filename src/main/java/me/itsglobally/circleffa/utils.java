@@ -36,7 +36,7 @@ public class utils {
         handleKill(u, data.getLastHit(u));
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
-        p.teleport(new Location(Bukkit.getWorld("ffa"), 2001.5, 201, 2001.5));
+        p.teleport(new Location(Bukkit.getWorld("ffa"), 2000.5, 201, 2000.5));
     }
 
     public static void spawn(UUID u) {
