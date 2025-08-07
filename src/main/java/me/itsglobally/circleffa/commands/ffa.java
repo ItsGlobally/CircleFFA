@@ -52,6 +52,10 @@ public class ffa implements CommandExecutor, TabCompleter {
                 utils.joinFFA(p.getUniqueId());
             }
             case "changemap" -> {
+                if (!p.hasPermission("circleffa.changemap")) {
+                    p.sendMessage("§cYou do not have permission to do that!");
+                    return true;
+                }
                 utils.changeMap();
                 utils.startMapRotation();
                 commandSender.sendMessage("§aChanged map.");
