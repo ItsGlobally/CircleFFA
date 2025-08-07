@@ -22,12 +22,6 @@ public final class CircleFFA extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new events(), this);
         getCommand("setLayout").setExecutor(new setLayout());
         getCommand("setLayout").setTabCompleter(new setLayout());
-        getCommand("kms").setExecutor(new kms());
-        getCommand("toggleBm").setExecutor(new toggleBm());
-        getCommand("changeMap").setExecutor(new changeMap());
-        getCommand("statsreset").setExecutor(new statsreset());
-        getCommand("setStar").setExecutor(new setStar());
-        getCommand("setXp").setExecutor(new setXp());
         getCommand("ffa").setExecutor(new ffa());
         data.setInstance(this);
         data.setPlugin(this);

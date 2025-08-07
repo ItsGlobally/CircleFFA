@@ -7,22 +7,10 @@ depend:
 commands:
   setLayout:
     description: "gay"
-  toggleBm:
-    permission: circleffa.togglebm
-    aliases:
-      - tbm
-  kms:
-    description: "gay"
-  changeMap:
-    description: "gay"
-  statsreset:
-    permission: circleffa.statsreset
-  setstar:
-    permission: circleffa.setstar
-  setxp:
-    permission: circleffa.setxp
   ffa:
-    description: "ga"
+    description: "gay"
+    aliases:
+      - kms
 permissions:
   circleffa.togglebm:
     default: op
