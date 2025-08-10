@@ -31,19 +31,22 @@ public class ffa implements CommandExecutor, TabCompleter {
         if (!(commandSender instanceof Player p)) {
             return true;
         }
-        if (strings.length < 1) {
-            p.sendMessage("§c/ffa [join/leave/kms/togglebm/tbm/statsreset/setxp/setstar]");
-            return true;
-        }
-        if (!s.equals("ffa")) {
-            switch (s) {
-                case "kms" -> {
-                    kms(p);
+        switch (s) {
+            case "kms" -> {
+                kms(p);
+            }
+            default -> {
+                if (strings.length < 1) {
+                    p.sendMessage("§c/ffa [join/leave/kms/togglebm/tbm/statsreset/setxp/setstar]");
                     return true;
                 }
+                cmd(commandSender, p, strings);
             }
-            return true;
         }
+
+        return true;
+    }
+    private static void cmd(CommandSender commandSender, Player p, String[] strings) {
         switch (strings[0]) {
             case "leave" -> {
                 utils.joinLobby(p.getUniqueId());
@@ -54,78 +57,74 @@ public class ffa implements CommandExecutor, TabCompleter {
             case "changemap" -> {
                 if (!p.hasPermission("circleffa.changemap")) {
                     p.sendMessage("§cYou do not have permission to do that!");
-                    return true;
+                    return;
                 }
                 utils.changeMap();
                 utils.startMapRotation();
                 commandSender.sendMessage("§aChanged map.");
-                return true;
             }
             case "setxp" -> {
                 if (!p.hasPermission("circleffa.setxp")) {
                     p.sendMessage("§cYou do not have permission to do that!");
-                    return true;
+                    return;
                 }
                 if (strings.length < 3) {
                     commandSender.sendMessage("§c/ffa setStar [player] [XP]");
-                    return true;
+                    return;
                 }
                 Player p2 = Bukkit.getPlayerExact(strings[1]);
                 if (p2 == null) {
                     commandSender.sendMessage("§cPlayer not found.");
-                    return true;
+                    return;
                 }
                 long star;
                 try {
                     star = Long.parseLong(strings[2]);
                 } catch (NumberFormatException e) {
                     commandSender.sendMessage("§cEnter a vaild number.");
-                    return true;
+                    return;
                 }
                 MongoStatUtil.setXp(p.getUniqueId(), star);
-                return true;
             }
             case "setstar" -> {
                 if (!p.hasPermission("circleffa.setstar")) {
                     p.sendMessage("§cYou do not have permission to do that!");
-                    return true;
+                    return;
                 }
                 if (strings.length < 3) {
                     commandSender.sendMessage("§c/ffa setStar [player] [star]");
-                    return true;
+                    return ;
                 }
                 Player p2 = Bukkit.getPlayerExact(strings[1]);
                 if (p2 == null) {
                     commandSender.sendMessage("§cPlayer not found.");
-                    return true;
+                    return;
                 }
                 long star;
                 try {
                     star = Long.parseLong(strings[2]);
                 } catch (NumberFormatException e) {
                     commandSender.sendMessage("§cEnter a vaild number.");
-                    return true;
+                    return;
                 }
                 MongoStatUtil.setStars(p.getUniqueId(), star);
-                return true;
             }
             case "kms" -> {
                 kms(p);
-                return true;
             }
             case "statsreset" -> {
                 if (!p.hasPermission("circleffa.statsreset")) {
                     p.sendMessage("§cYou do not have permission to do that!");
-                    return true;
+                    return;
                 }
                 if (strings.length < 2) {
                     commandSender.sendMessage("§c/ffa statsreset [player]");
-                    return true;
+                    return;
                 }
                 Player p2 = Bukkit.getPlayerExact(strings[1]);
                 if (p2 == null) {
                     commandSender.sendMessage("§cPlayer not found");
-                    return true;
+                    return;
                 }
                 UUID u = p2.getUniqueId();
                 data.setks(u, 0L);
@@ -134,25 +133,20 @@ public class ffa implements CommandExecutor, TabCompleter {
                 MongoStatUtil.setXp(u, 0L);
                 MongoStatUtil.setStars(u, 0L);
                 commandSender.sendMessage("§aYou've reset " + p2.getDisplayName() + "§a's stats");
-                return true;
             }
             case "togglebm", "tbm" -> {
                 if (!p.hasPermission("circleffa.togglebm")) {
                     p.sendMessage("§cYou do not have permission to do that!");
-                    return true;
+                    return;
                 }
                 data.toggleBm(p.getUniqueId());
                 utils.getAudience(p).sendActionBar(Component.text("§7Set your build mode to " + data.getBm(p.getUniqueId())));
-                return true;
             }
             default -> {
                 p.sendMessage("§c/ffa [join/leave/kms/togglebm/tbm/statsreset/setxp/setstar]");
-                return true;
             }
         }
-        return true;
     }
-
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player p)) {

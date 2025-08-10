@@ -20,18 +20,20 @@ import java.util.*;
 
 public class utils {
 
-    // A map to store player UUID -> Set of scoreboard entries you added
+
     private static final Map<UUID, Set<String>> playerScoreEntries = new HashMap<>();
     private static BukkitRunnable mapTask;
 
     public static void joinFFA(UUID u) {
         Player p = Bukkit.getPlayer(u);
+        p.setGameMode(GameMode.SURVIVAL);
         data.setPlayerGamemode(u, "KBFFA");
         spawn(u);
     }
 
     public static void joinLobby(UUID u) {
         Player p = Bukkit.getPlayer(u);
+        p.setGameMode(GameMode.ADVENTURE);
         data.setPlayerGamemode(u, "LOBBY");
         handleKill(u, data.getLastHit(u));
         p.getInventory().clear();
