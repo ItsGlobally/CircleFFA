@@ -200,10 +200,6 @@ public class utils {
             spawn(p.getUniqueId());
         }
         Bukkit.broadcastMessage("§7Next map change in 10 minutes.");
-        if (DiscordSRV.getPlugin().getJda() != null)
-            Objects.requireNonNull(DiscordSRV.getPlugin().getJda().getTextChannelById(1401142669287100498L))
-                    .sendMessage("Map changed")
-                    .queue();
     }
 
     public static void startMapRotation() {

@@ -32,6 +32,7 @@ public final class CircleFFA extends JavaPlugin {
 
         data.setCurmap(data.getRandomMap());
         utils.changeMap();
+        utils.startMapRotation();
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
