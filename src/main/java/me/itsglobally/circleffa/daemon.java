@@ -54,8 +54,8 @@ public class daemon extends WebSocketClient {
                         return;
                     }
                     Long kills = MongoStatUtil.getKills(ofp.getUniqueId());
-                    Long stars = MongoStatUtil.getKills(ofp.getUniqueId());
-                    Long deaths = MongoStatUtil.getKills(ofp.getUniqueId());
+                    Long stars = MongoStatUtil.getStars(ofp.getUniqueId());
+                    Long deaths = MongoStatUtil.getDies(ofp.getUniqueId());
                     Long ks = data.getks(ofp.getUniqueId());
                     JsonObject obj = basic();
                     obj.addProperty("name", ofp.getName());
