@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.UUID;
 
 public class daemon extends WebSocketClient {
 
@@ -38,6 +40,7 @@ public class daemon extends WebSocketClient {
             if (cmd.isEmpty()) return;
             switch (cmd) {
                 case "playerstats":
+                    Bukkit.getLogger().info("a");
                     // String player = json.has("player") ? json.get("player").getAsString() : "";
                     String player;
                     if (json.has("player")) {
@@ -47,19 +50,34 @@ public class daemon extends WebSocketClient {
                         obj.addProperty("error", "noplayer");
                         return;
                     }
-                    OfflinePlayer ofp = Bukkit.getOfflinePlayer(player);
-                    if (ofp == null) {
+                    Bukkit.getLogger().info("a");
+                    UUID puid;
+                    String pname;
+                    Player onlinePlayer = Bukkit.getPlayer(player);
+
+                    if (onlinePlayer != null) {
+                        puid = onlinePlayer.getUniqueId();
+                        pname = onlinePlayer.getName();
+                    } else {
                         JsonObject obj = basic();
                         obj.addProperty("error", "playernotfound");
+                        send(gson.toJson(obj));
                         return;
                     }
-                    Long kills = MongoStatUtil.getKills(ofp.getUniqueId());
-                    Long stars = MongoStatUtil.getStars(ofp.getUniqueId());
-                    Long deaths = MongoStatUtil.getDies(ofp.getUniqueId());
-                    Long ks = data.getks(ofp.getUniqueId());
+
+                    Long kills = MongoStatUtil.getKills(puid);
+                    Bukkit.getLogger().info("a");
+                    Long stars = MongoStatUtil.getStars(puid);
+                    Bukkit.getLogger().info("a");
+                    Long deaths = MongoStatUtil.getDies(puid);
+                    Bukkit.getLogger().info("a");
+                    Long ks = data.getks(puid);
+                    Bukkit.getLogger().info("a");
+                    Long xp = MongoStatUtil.getXp(puid);
+                    Bukkit.getLogger().info("a");
                     JsonObject obj = basic();
-                    obj.addProperty("name", ofp.getName());
-                    obj.addProperty("xp", MongoStatUtil.getXp(ofp.getUniqueId()));
+                    obj.addProperty("name", pname);
+                    obj.addProperty("xp", xp);
                     obj.addProperty("kills", kills);
                     obj.addProperty("stars", stars);
                     obj.addProperty("deaths", deaths);
@@ -71,7 +89,7 @@ public class daemon extends WebSocketClient {
             }
         } catch (Exception e) {
             Bukkit.getLogger().info("Invalid JSON: " + message);
-            Bukkit.getLogger().info(e.getMessage());
+            e.printStackTrace();
             JsonObject obj = basic();
             obj.addProperty("message", "fuck u not json r u retarded");
             send(gson.toJson(obj));
