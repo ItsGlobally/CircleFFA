@@ -3,6 +3,7 @@ package me.itsglobally.circleffa;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -29,32 +30,48 @@ public class daemon extends WebSocketClient {
     public void onMessage(String message) {
         try {
             JsonObject json = gson.fromJson(message, JsonObject.class);
-
+            Bukkit.getLogger().info(json.toString());
             String server = json.has("server") ? json.get("server").getAsString() : "";
-            String msg = json.has("cmd") ? json.get("cmd").getAsString() : "";
-            if (!server.equals("ffa")) return;
-            switch (msg) {
+            Bukkit.getLogger().info(server);
+            String cmd = json.has("cmd") ? json.get("cmd").getAsString() : "";
+            Bukkit.getLogger().info(cmd);
+            if (cmd.isEmpty()) return;
+            switch (cmd) {
                 case "playerstats":
-                    String player = json.has("player") ? json.get("player").getAsString() : "";
-                    Long kills = MongoStatUtil.getKills(Bukkit.getOfflinePlayer(player).getUniqueId());
-                    Long stars = MongoStatUtil.getKills(Bukkit.getOfflinePlayer(player).getUniqueId());
-                    Long deaths = MongoStatUtil.getKills(Bukkit.getOfflinePlayer(player).getUniqueId());
-                    Long ks = MongoStatUtil.getKills(Bukkit.getOfflinePlayer(player).getUniqueId());
+                    // String player = json.has("player") ? json.get("player").getAsString() : "";
+                    String player;
+                    if (json.has("player")) {
+                        player = json.get("player").getAsString();
+                    } else {
+                        JsonObject obj = basic();
+                        obj.addProperty("error", "noplayer");
+                        return;
+                    }
+                    OfflinePlayer ofp = Bukkit.getOfflinePlayer(player);
+                    if (ofp == null) {
+                        JsonObject obj = basic();
+                        obj.addProperty("error", "playernotfound");
+                        return;
+                    }
+                    Long kills = MongoStatUtil.getKills(ofp.getUniqueId());
+                    Long stars = MongoStatUtil.getKills(ofp.getUniqueId());
+                    Long deaths = MongoStatUtil.getKills(ofp.getUniqueId());
+                    Long ks = data.getks(ofp.getUniqueId());
                     JsonObject obj = basic();
-                    obj.addProperty("name", Bukkit.getPlayer(player).getName());
-                    obj.addProperty("xp", MongoStatUtil.getXp(Bukkit.getOfflinePlayer(player).getUniqueId()));
+                    obj.addProperty("name", ofp.getName());
+                    obj.addProperty("xp", MongoStatUtil.getXp(ofp.getUniqueId()));
                     obj.addProperty("kills", kills);
                     obj.addProperty("stars", stars);
                     obj.addProperty("deaths", deaths);
                     obj.addProperty("ks", ks);
                     send(gson.toJson(obj));
-
                     break;
                 default:
-                    Bukkit.getLogger().info("Unknown server: " + server + " | " + msg);
+                    Bukkit.getLogger().info("Unknown cmd: " + cmd);
             }
         } catch (Exception e) {
             Bukkit.getLogger().info("Invalid JSON: " + message);
+            Bukkit.getLogger().info(e.getMessage());
             JsonObject obj = basic();
             obj.addProperty("message", "fuck u not json r u retarded");
             send(gson.toJson(obj));
