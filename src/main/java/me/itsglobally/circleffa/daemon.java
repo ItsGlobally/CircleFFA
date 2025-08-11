@@ -32,51 +32,34 @@ public class daemon extends WebSocketClient {
     public void onMessage(String message) {
         try {
             JsonObject json = gson.fromJson(message, JsonObject.class);
-            Bukkit.getLogger().info(json.toString());
             String server = json.has("server") ? json.get("server").getAsString() : "";
-            Bukkit.getLogger().info(server);
             String cmd = json.has("cmd") ? json.get("cmd").getAsString() : "";
-            Bukkit.getLogger().info(cmd);
             if (cmd.isEmpty()) return;
             switch (cmd) {
                 case "playerstats":
-                    Bukkit.getLogger().info("a");
-                    // String player = json.has("player") ? json.get("player").getAsString() : "";
-                    String player;
+                    UUID u;
                     if (json.has("player")) {
-                        player = json.get("player").getAsString();
+                        try {
+                            u = UUID.fromString(json.get("player").getAsString());
+                        } catch (Exception e) {
+                            JsonObject obj = basic("1");
+                            obj.addProperty("error", "notuuid");
+                            obj.addProperty("code", "1");
+                            return;
+                        }
                     } else {
-                        JsonObject obj = basic();
+                        JsonObject obj = basic("1");
                         obj.addProperty("error", "noplayer");
                         return;
                     }
-                    Bukkit.getLogger().info("a");
-                    UUID puid;
-                    String pname;
-                    Player onlinePlayer = Bukkit.getPlayer(player);
 
-                    if (onlinePlayer != null) {
-                        puid = onlinePlayer.getUniqueId();
-                        pname = onlinePlayer.getName();
-                    } else {
-                        JsonObject obj = basic();
-                        obj.addProperty("error", "playernotfound");
-                        send(gson.toJson(obj));
-                        return;
-                    }
-
-                    Long kills = MongoStatUtil.getKills(puid);
-                    Bukkit.getLogger().info("a");
-                    Long stars = MongoStatUtil.getStars(puid);
-                    Bukkit.getLogger().info("a");
-                    Long deaths = MongoStatUtil.getDies(puid);
-                    Bukkit.getLogger().info("a");
-                    Long ks = data.getks(puid);
-                    Bukkit.getLogger().info("a");
-                    Long xp = MongoStatUtil.getXp(puid);
-                    Bukkit.getLogger().info("a");
-                    JsonObject obj = basic();
-                    obj.addProperty("name", pname);
+                    Long kills = MongoStatUtil.getKills(u);
+                    Long stars = MongoStatUtil.getStars(u);
+                    Long deaths = MongoStatUtil.getDies(u);
+                    Long ks = data.getks(u);
+                    Long xp = MongoStatUtil.getXp(u);
+                    JsonObject obj = basic(null);
+                    obj.addProperty("uuid", u.toString());
                     obj.addProperty("xp", xp);
                     obj.addProperty("kills", kills);
                     obj.addProperty("stars", stars);
@@ -90,14 +73,17 @@ public class daemon extends WebSocketClient {
         } catch (Exception e) {
             Bukkit.getLogger().info("Invalid JSON: " + message);
             e.printStackTrace();
-            JsonObject obj = basic();
+            JsonObject obj = basic(null);
             obj.addProperty("message", "fuck u not json r u retarded");
             send(gson.toJson(obj));
         }
     }
-    private static JsonObject basic() {
+    private static JsonObject basic(String code) {
         JsonObject obj = new JsonObject();
         obj.addProperty("server", "ffa");
+        if (code != null) {
+            obj.addProperty("code", "0");
+        }
         return obj;
     }
 
