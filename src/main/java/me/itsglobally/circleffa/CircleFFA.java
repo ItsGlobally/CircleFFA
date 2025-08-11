@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.net.URI;
 
 public final class CircleFFA extends JavaPlugin {
 
@@ -18,6 +19,12 @@ public final class CircleFFA extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        daemon wssrv;
+        try {
+            wssrv = new daemon(new URI("ws://172.18,"));
+        } catch (Exception e) {
+            this.getPluginLoader().disablePlugin(this);
+        }
         this.adventure = BukkitAudiences.create(this);
         getServer().getPluginManager().registerEvents(new events(), this);
         getCommand("setLayout").setExecutor(new setLayout());

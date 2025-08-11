@@ -11,7 +11,7 @@ import org.bson.Document;
 import java.util.UUID;
 
 public class MongoStatUtil {
-    private static final String URI = "mongodb://172.20.0.1:27017"; // Update if needed
+    private static final String URI = "mongodb://172.18.0.1:25502"; // Update if needed
     private static final String DB_NAME = "circleffa";
     private static final String COLLECTION_NAME = "playerStats";
 

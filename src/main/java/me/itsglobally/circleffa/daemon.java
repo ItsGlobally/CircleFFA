@@ -18,12 +18,10 @@ public class daemon extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        System.out.println("Connected to server");
-
+        Bukkit.getLogger().info("Connected to server");
         JsonObject obj = new JsonObject();
         obj.addProperty("server", "ffa");
-        obj.addProperty("id", 0);
-        obj.addProperty("stats", "connected");
+        obj.addProperty("message", "connected");
         send(gson.toJson(obj));
     }
 
@@ -53,10 +51,13 @@ public class daemon extends WebSocketClient {
 
                     break;
                 default:
-                    System.out.println("Unknown server: " + server + " | " + msg);
+                    Bukkit.getLogger().info("Unknown server: " + server + " | " + msg);
             }
         } catch (Exception e) {
-            System.out.println("Invalid JSON: " + message);
+            Bukkit.getLogger().info("Invalid JSON: " + message);
+            JsonObject obj = basic();
+            obj.addProperty("message", "fuck u not json r u retarded");
+            send(gson.toJson(obj));
         }
     }
     private static JsonObject basic() {
@@ -67,7 +68,7 @@ public class daemon extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        System.out.println("Connection closed: " + reason);
+        Bukkit.getLogger().warning("Connection closed: " + reason);
     }
 
     @Override
