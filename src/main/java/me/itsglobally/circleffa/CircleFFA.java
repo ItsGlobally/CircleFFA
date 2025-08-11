@@ -21,7 +21,8 @@ public final class CircleFFA extends JavaPlugin {
     public void onEnable() {
         daemon wssrv;
         try {
-            wssrv = new daemon(new URI("ws://172.18,"));
+            wssrv = new daemon(new URI("ws://172.18.0.1:25502"));
+            wssrv.connect();
         } catch (Exception e) {
             this.getPluginLoader().disablePlugin(this);
         }
