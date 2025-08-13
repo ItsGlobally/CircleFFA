@@ -58,7 +58,7 @@ public class daemon extends WebSocketClient {
                     Long deaths = MongoStatUtil.getDies(u);
                     Long ks = data.getks(u);
                     Long xp = MongoStatUtil.getXp(u);
-                    JsonObject obj = basic(null);
+                    JsonObject obj = basic();
                     obj.addProperty("uuid", u.toString());
                     obj.addProperty("xp", xp);
                     obj.addProperty("kills", kills);
@@ -67,6 +67,42 @@ public class daemon extends WebSocketClient {
                     obj.addProperty("ks", ks);
                     send(gson.toJson(obj));
                     break;
+                case "ban" :
+                    UUID u1;
+                    if (json.has("player")) {
+                        try {
+                            u1 = UUID.fromString(json.get("player").getAsString());
+                        } catch (Exception e) {
+                            JsonObject obj1 = basic("1");
+                            obj1.addProperty("error", "notuuid");
+                            obj1.addProperty("code", "1");
+                            return;
+                        }
+                        Player p1 = Bukkit.getPlayer(u1);
+                        p1.setBanned(true);
+                        JsonObject obj1 = basic();
+                        obj1.addProperty("player", u1.toString());
+                        obj1.addProperty("banned", p1.isBanned());
+                        send(gson.toJson(obj1));
+                    }
+                case "unban" :
+                    UUID u2;
+                    if (json.has("player")) {
+                        try {
+                            u2 = UUID.fromString(json.get("player").getAsString());
+                        } catch (Exception e) {
+                            JsonObject obj2 = basic("1");
+                            obj2.addProperty("error", "notuuid");
+                            obj2.addProperty("code", "1");
+                            return;
+                        }
+                        Player p2 = Bukkit.getPlayer(u2);
+                        p2.setBanned(false);
+                        JsonObject obj2 = basic();
+                        obj2.addProperty("player", u2.toString());
+                        obj2.addProperty("banned", p2.isBanned());
+                        send(gson.toJson(obj2));
+                    }
                 default:
                     Bukkit.getLogger().info("Unknown cmd: " + cmd);
             }
@@ -84,6 +120,12 @@ public class daemon extends WebSocketClient {
         if (code != null) {
             obj.addProperty("code", "0");
         }
+        return obj;
+    }
+    private static JsonObject basic() {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("server", "ffa");
+        obj.addProperty("code", "0");
         return obj;
     }
 
