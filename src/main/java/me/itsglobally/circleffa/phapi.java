@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class phapi extends PlaceholderExpansion {
+    private final CircleFFA plugin; //
+
+    public phapi(CircleFFA plugin) {
+        this.plugin = plugin;
+    }
     @Override
     public String getAuthor() {
         return "ItsGlobally";

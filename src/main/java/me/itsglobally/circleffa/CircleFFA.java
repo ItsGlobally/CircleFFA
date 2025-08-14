@@ -27,7 +27,7 @@ public final class CircleFFA extends JavaPlugin {
             this.getPluginLoader().disablePlugin(this);
         }
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
-            new phapi().register(); //
+            new phapi(this).register(); //
         }
         this.adventure = BukkitAudiences.create(this);
         getServer().getPluginManager().registerEvents(new events(), this);
