@@ -78,9 +78,9 @@ public class daemon extends WebSocketClient {
                             obj1.addProperty("code", "1");
                             return;
                         }
-                        Player p1 = Bukkit.getPlayer(u1);
-                        Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
+                          Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
                                 .addBan(json.get("player").getAsString(), "Banned by daemon", null, null);
+                        break;
                     }
                 case "unban" :
                     UUID u2;
@@ -93,13 +93,10 @@ public class daemon extends WebSocketClient {
                             obj2.addProperty("code", "1");
                             return;
                         }
-                        Player p2 = Bukkit.getPlayer(u2);
-                        p2.setBanned(false);
-                        JsonObject obj2 = basic();
-                        obj2.addProperty("player", u2.toString());
-                        obj2.addProperty("banned", p2.isBanned());
-                        send(gson.toJson(obj2));
+                        Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
+                                .pardon(json.get("player").getAsString());
                     }
+                    break;
                 default:
                     Bukkit.getLogger().info("Unknown cmd: " + cmd);
             }
