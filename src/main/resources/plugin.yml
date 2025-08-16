@@ -4,8 +4,7 @@ main: me.itsglobally.circleffa.CircleFFA
 load: STARTUP
 depend:
   - DiscordSRV
-softdepend:
-  - "PlaceholderAPI"
+  - PlaceholderAPI
 commands:
   setLayout:
     description: "gay"
