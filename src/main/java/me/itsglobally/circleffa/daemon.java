@@ -72,7 +72,7 @@ public class daemon extends WebSocketClient {
                         Bukkit.getScheduler().runTask(data.getPlugin(), () -> {
                             Bukkit.dispatchCommand(
                                     Bukkit.getConsoleSender(),
-                                    "ban " + json.get("player")
+                                    "ban " + json.get("player").getAsString()
                             );
                         });
                     }
@@ -82,7 +82,7 @@ public class daemon extends WebSocketClient {
                         Bukkit.getScheduler().runTask(data.getPlugin(), () -> {
                             Bukkit.dispatchCommand(
                                     Bukkit.getConsoleSender(),
-                                    "pardon " + json.get("player")
+                                    "pardon " + json.get("player").getAsString()
                             );
                         });
                     }
