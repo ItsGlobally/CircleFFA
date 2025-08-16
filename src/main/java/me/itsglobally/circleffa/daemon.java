@@ -79,7 +79,12 @@ public class daemon extends WebSocketClient {
                             return;
                         }
                         Player p1 = Bukkit.getPlayer(u1);
-                        p1.setBanned(true);
+                        if (p1 != null) {
+                            p1.setBanned(true);
+                        } else {
+                            Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
+                                    .addBan(json.get("player").getAsString(), "Banned by daemon", null, null);
+                        }
                         JsonObject obj1 = basic();
                         obj1.addProperty("player", u1.toString());
                         obj1.addProperty("banned", p1.isBanned());
