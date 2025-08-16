@@ -68,33 +68,23 @@ public class daemon extends WebSocketClient {
                     send(gson.toJson(obj));
                     break;
                 case "ban" :
-                    UUID u1;
                     if (json.has("player")) {
-                        try {
-                            u1 = UUID.fromString(json.get("player").getAsString());
-                        } catch (Exception e) {
-                            JsonObject obj1 = basic("1");
-                            obj1.addProperty("error", "notuuid");
-                            obj1.addProperty("code", "1");
-                            return;
-                        }
-                          Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
-                                .addBan(json.get("player").getAsString(), "Banned by daemon", null, null);
-                        break;
+                        Bukkit.getScheduler().runTask(data.getPlugin(), () -> {
+                            Bukkit.dispatchCommand(
+                                    Bukkit.getConsoleSender(),
+                                    "ban " + json.get("player")
+                            );
+                        });
                     }
+                    break;
                 case "unban" :
-                    UUID u2;
                     if (json.has("player")) {
-                        try {
-                            u2 = UUID.fromString(json.get("player").getAsString());
-                        } catch (Exception e) {
-                            JsonObject obj2 = basic("1");
-                            obj2.addProperty("error", "notuuid");
-                            obj2.addProperty("code", "1");
-                            return;
-                        }
-                        Bukkit.getBanList(org.bukkit.BanList.Type.NAME)
-                                .pardon(json.get("player").getAsString());
+                        Bukkit.getScheduler().runTask(data.getPlugin(), () -> {
+                            Bukkit.dispatchCommand(
+                                    Bukkit.getConsoleSender(),
+                                    "pardon " + json.get("player")
+                            );
+                        });
                     }
                     break;
                 default:
