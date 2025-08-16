@@ -94,7 +94,7 @@ public class daemon extends WebSocketClient {
             Bukkit.getLogger().info("Invalid JSON: " + message);
             e.printStackTrace();
             JsonObject obj = basic(null);
-            obj.addProperty("message", "fuck u not json r u retarded");
+            obj.addProperty("message", e.getMessage());
             send(gson.toJson(obj));
         }
     }
